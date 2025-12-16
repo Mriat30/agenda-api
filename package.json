@@ -1,5 +1,5 @@
 {
-  "name": "hexagonal-architecture-typescript-service-skeleton",
+  "name": "agenda-masajes",
   "version": "1.0.0",
   "description": "Skeleton for new typescript services based on hexagonal architecture",
   "main": "src/index.js",

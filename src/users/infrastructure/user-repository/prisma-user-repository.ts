@@ -7,13 +7,13 @@ export class PrismaUserRepository implements UserRepository {
     await prisma.user.upsert({
       where: { id: user.id },
       update: {
-        email: user.email.valueOf(),
-        name: user.slackUserId.valueOf(),
+        email: user.email,
+        slackUserId: user.slackUserId,
       },
       create: {
         id: user.id,
-        email: user.email.valueOf(),
-        name: user.slackUserId.valueOf(),
+        email: user.email,
+        slackUserId: user.slackUserId,
       },
     });
   }
@@ -23,6 +23,6 @@ export class PrismaUserRepository implements UserRepository {
 
     if (!prismaUser) return null;
 
-    return new User(prismaUser.id, prismaUser.email, prismaUser.name!);
+    return new User(prismaUser.id, prismaUser.email, prismaUser.slackUserId);
   }
 }

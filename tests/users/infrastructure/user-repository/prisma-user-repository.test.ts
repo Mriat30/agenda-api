@@ -1,33 +1,33 @@
-import { prisma } from "../../../../src/infraestructure/db/prisma";
+import { User } from "../../../../src/users/domain/user";
 import { PrismaUserRepository } from "../../../../src/users/infrastructure/user-repository/prisma-user-repository";
+import { DatabaseHelper } from "../../../database-helper";
 
 describe("PrismaUserRepository Integration", () => {
   let repository: PrismaUserRepository;
 
-  beforeAll(() => {
+  beforeEach(async () => {
     repository = new PrismaUserRepository();
+    await DatabaseHelper.cleanDatabase();
   });
 
-  beforeEach(async () => {
-    await prisma.user.deleteMany();
+  afterAll(async () => {
+    await DatabaseHelper.disconnect();
   });
 
   describe("getById", () => {
-    xit("debe recuperar un usuario insertado en la DB real", async () => {
-      // 1. ARRANGE: Insertamos datos directamente en la DB (Bypaseando el repositorio)
-      const newUser = await prisma.user.create({
-        data: {
-          email: "test@example.com",
-          name: "Usuario Test",
-          // Asegúrate de agregar campos obligatorios si tu schema los pide (ej. password)
-        },
-      });
+    it("debe guardar un usuario y permitir recuperarlo por su ID", async () => {
+      const userId = "user-123";
+      const userEmail = "mateo@example.com";
+      const slackId = "U888999";
+      const user = new User(userId, userEmail, slackId);
 
-      const foundUser = await repository.getById(newUser.id);
+      await repository.save(user);
 
-      expect(foundUser).toBeDefined();
-      expect(foundUser?.id).toBe(newUser.id);
-      expect(foundUser?.email).toBe("test@example.com");
+      const foundUser = await repository.getById(userId);
+
+      expect(foundUser?.id).toBe(userId);
+      expect(foundUser?.email).toBe(userEmail);
+      expect(foundUser?.slackUserId).toBe(slackId);
     });
   });
 });

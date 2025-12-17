@@ -18,5 +18,5 @@ module.exports = {
     node: true,
     jest: true,
   },
-  ignorePatterns: ['.eslintrc.js', "commitlint.config.js", "jest.config.js"],
+  ignorePatterns: ['.eslintrc.js', "commitlint.config.js", "jest.config.js", "cucumber.js"],
 };

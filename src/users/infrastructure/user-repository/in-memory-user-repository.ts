@@ -12,4 +12,16 @@ export class InMemoryUserRepository implements UserRepository {
 
     return new User(user.id, user.email, user.slackUserId);
   }
+
+  async save(user: User): Promise<void> {
+    const existingIndex = USERS.findIndex((u) => u.id === user.id);
+
+    if (existingIndex !== -1) {
+      USERS[existingIndex] = {
+        id: user.id,
+        email: user.email,
+        slackUserId: user.slackUserId,
+      };
+    }
+  }
 }

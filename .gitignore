@@ -3,4 +3,5 @@ dist/
 .tmp
 .idea
 .env
+.env.test
 coverage/

@@ -1,6 +1,29 @@
-version: '3.8'
+version: '3.9'
 
 services:
+  dev_db:
+    image: postgres:15-alpine
+    container_name: postgres_dev_container
+    restart: always
+    environment:
+      POSTGRES_USER: dev_user
+      POSTGRES_PASSWORD: dev_password
+      POSTGRES_DB: dev_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - dev_postgres_data:/var/lib/postgresql/data
+
+  test_db:
+    image: postgres:15-alpine
+    container_name: postgres_test_container
+    environment:
+      POSTGRES_USER: test_user
+      POSTGRES_PASSWORD: test_password
+      POSTGRES_DB: test_db
+    ports:
+      - "5433:5432"
+
   app:
     build:
       context: .
@@ -14,6 +37,14 @@ services:
     volumes:
       - .:/app
       - /app/node_modules
+    depends_on:
+      - dev_db
+      - test_db
     environment:
       - NODE_ENV=development
       - PORT=3000
+      - DATABASE_URL=postgresql://dev_user:dev_password@dev_db:5432/dev_db?schema=public
+      - TEST_DB_URL=postgresql://test_user:test_password@test_db:5432/test_db?schema=public
+
+volumes:
+  dev_postgres_data:

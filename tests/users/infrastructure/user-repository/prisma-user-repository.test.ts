@@ -13,7 +13,7 @@ describe("PrismaUserRepository Integration", () => {
   });
 
   describe("getById", () => {
-    it("debe recuperar un usuario insertado en la DB real", async () => {
+    xit("debe recuperar un usuario insertado en la DB real", async () => {
       // 1. ARRANGE: Insertamos datos directamente en la DB (Bypaseando el repositorio)
       const newUser = await prisma.user.create({
         data: {

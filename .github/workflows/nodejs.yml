@@ -2,40 +2,77 @@ name: Node CI
 
 on: [push]
 
+env:
+  POSTGRES_DB: db_test
+  POSTGRES_USER: webapi
+  POSTGRES_PASSWORD: Passw0rd!
+  TEST_DB_URL: postgresql://webapi:Passw0rd!@localhost:5433/db_test?schema=public
+  TEAM: masajes
+  PORT: 3000
+
 jobs:
   build-job:
-    name: build-job
+    name: Build and Test
     runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:15-alpine
+        env:
+          POSTGRES_USER: ${{ env.POSTGRES_USER }}
+          POSTGRES_PASSWORD: ${{ env.POSTGRES_PASSWORD }}
+          POSTGRES_DB: ${{ env.POSTGRES_DB }}
+        ports:
+          - 5433:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
     steps:
       - uses: actions/checkout@v3
+
       - name: Use Node.js 20
         uses: actions/setup-node@v3
         with:
           node-version: 20
+          cache: 'npm'
 
-      - name: npm install
+      - name: Install dependencies
         run: npm install
 
-      - name: Run Linter and Tests
+      - name: Generate Prisma Client
+        run: npm run prisma:generate
+
+      - name: Prepare Database Schema
+        run: npx prisma db push
+        env:
+          DATABASE_URL: ${{ env.TEST_DB_URL }}
+
+      - name: Run Tests
         run: npm run test:all
+        env:
+          NODE_ENV: test
+          DATABASE_URL: ${{ env.TEST_DB_URL }}
 
   security-scan-job:
-    name: security-scan-job
+    name: Security Scan
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
-
       - name: Gitleaks Detection
         uses: gitleaks/gitleaks-action@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   package:
-    name: package-job
+    name: Package and Push
     runs-on: ubuntu-latest
     needs: [build-job, security-scan-job]
+    if: github.ref == 'refs/heads/main'
 
     steps:
       - uses: actions/checkout@v3
@@ -55,4 +92,6 @@ jobs:
           context: .
           file: Dockerfile.prod
           push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/agua-api-node:latest, ${{ secrets.DOCKER_USERNAME }}/agua-api-node:${{ github.sha }}
+          tags: |
+            ${{ secrets.DOCKER_USERNAME }}/agenda-masajes:latest
+            ${{ secrets.DOCKER_USERNAME }}/agenda-masajes:${{ github.sha }}

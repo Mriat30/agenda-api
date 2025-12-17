@@ -1,10 +1,9 @@
-// tests/global-setup.ts
 import { execSync } from "child_process";
 
 async function globalSetup(): Promise<void> {
   const testDbUrl =
     process.env.TEST_DB_URL ||
-    "postgresql://test_user:test_password@test_db:5432/test_db?schema=public";
+    "postgresql://test_user:test_password@localhost:5433/test_db?schema=public";
 
   process.env.DATABASE_URL = testDbUrl;
   process.env.NODE_ENV = "test";

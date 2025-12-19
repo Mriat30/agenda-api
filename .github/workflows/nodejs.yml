@@ -1,6 +1,10 @@
-name: Node CI
+name: Node CI/CD Pipeline
 
-on: [push]
+on:
+  push:
+    branches: [ main ]
+    tags:
+        - 'v*.*.*'
 
 env:
   POSTGRES_DB: db_test
@@ -72,7 +76,7 @@ jobs:
     name: Package and Push
     runs-on: ubuntu-latest
     needs: [build-job, security-scan-job]
-    if: github.ref == 'refs/heads/main'
+    if: github.event_name == 'push'
 
     steps:
       - uses: actions/checkout@v3
@@ -95,3 +99,13 @@ jobs:
           tags: |
             ${{ secrets.DOCKER_USERNAME }}/agenda-masajes:latest
             ${{ secrets.DOCKER_USERNAME }}/agenda-masajes:${{ github.sha }}
+
+  deploy-test:
+    name: Deploy to Test Environment
+    needs: [ package ]
+    runs-on: ubuntu-latest
+    environment: test
+    steps:
+      - name: Deploy to Render Test
+        run: curl -f ${{ secrets.RENDER_DEPLOY_HOOK_TEST }}
+

@@ -3,9 +3,8 @@
   "info": {
     "title": "API de agenda de turnos de masajes",
     "description": "Esta API permite agendar turnos para las personas y que ellas tambien lo gestionen",
-    "version": "1.0.0"
+    "version": "0.0.1"
   },
-  "host": "localhost:3000",
   "basePath": "/",
   "schemes": [
     "http"

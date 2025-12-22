@@ -1,5 +1,5 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
-npm run test
-npm run build
+docker exec -t ts-service-app npm run test:all
+docker exec -t ts-service-app npm run build

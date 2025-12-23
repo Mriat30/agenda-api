@@ -12,7 +12,6 @@ const app = express();
 
 function bootstrap() {
   app.use("/", healthRouter);
-  app.use("/version", healthRouter);
   app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDocumentation));
   app.use("/users", userRouter);
 

@@ -31,26 +31,6 @@
         }
       }
     },
-    "/version/": {
-      "get": {
-        "description": "",
-        "responses": {
-          "default": {
-            "description": ""
-          }
-        }
-      }
-    },
-    "/version/version": {
-      "get": {
-        "description": "",
-        "responses": {
-          "default": {
-            "description": ""
-          }
-        }
-      }
-    },
     "/users/{id}/welcome": {
       "post": {
         "description": "",

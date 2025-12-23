@@ -5,6 +5,11 @@ on:
     branches: [ main ]
     tags:
         - 'v*.*.*'
+  workflow_dispatch:
+    inputs:
+      tag_name:
+        description: 'Tag a desplegar a PRODUCCIÓN (ej: v1.0.0)'
+        required: true
 
 env:
   POSTGRES_DB: db_test
@@ -111,4 +116,14 @@ jobs:
     steps:
       - name: Deploy to Render Test
         run: curl -f ${{ secrets.RENDER_DEPLOY_HOOK_TEST }}
+
+  deploy-production:
+    name: Deploy to Production Environment
+    runs-on: ubuntu-latest
+    if: github.event_name == 'workflow_dispatch'
+    environment: production
+    steps:
+      - name: Deploy to Render Production
+        run: |
+          curl -f -X POST "${{ secrets.RENDER_DEPLOY_HOOK_PROD }}&ref=${{ github.event.inputs.tag_name }}"
 

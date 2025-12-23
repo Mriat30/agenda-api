@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 
-import versionData from "../../../version.json";
+import versionData from "../../../../version.json";
 
 export class VersionController {
   getVersion(req: Request, res: Response) {

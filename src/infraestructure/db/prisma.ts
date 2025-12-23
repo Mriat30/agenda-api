@@ -1,6 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 
-import { Configuration } from "../../config/configuration";
+import { Configuration } from "../../shared/infrastructure/config/configuration";
 
 const dbUrl = Configuration.getDatabaseUrl();
 

@@ -5,12 +5,14 @@ import swaggerUI from "swagger-ui-express";
 
 import swaggerDocumentation from "../swagger.json";
 import { Configuration } from "./config/configuration";
+import { versionRouter } from "./health/infraestructure/version-router";
 import { userRouter } from "./users/infrastructure/rest-api/user-router";
 
 const app = express();
 
 function bootstrap() {
   app.use("/users", userRouter);
+  app.use("/version", versionRouter);
   app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDocumentation));
 
   const port = Configuration.getPort();

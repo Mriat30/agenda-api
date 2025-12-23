@@ -1,4 +1,5 @@
 import swaggerAutoGen from 'swagger-autogen'
+import versionData from './version.json' with { type: "json" };
 
 const outputFile = './swagger.json'
 const endPointsFiles = ['./src/main.ts'];
@@ -6,10 +7,10 @@ const endPointsFiles = ['./src/main.ts'];
 const doc = {
     info: {
         title: 'API de agenda de turnos de masajes',
-        description: 'Esta API permite agendar turnos para las personas y que ellas tambien lo gestionen'
+        description: 'Esta API permite agendar turnos para las personas y que ellas tambien lo gestionen',
+        version: versionData.version,
     },
-    host: 'localhost:3000',
-    schemes: ['http'],
+    schemes: ['http', 'https'],
 }
 
 swaggerAutoGen()(outputFile, endPointsFiles,doc);

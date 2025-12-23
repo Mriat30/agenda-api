@@ -7,7 +7,7 @@
     "start": "node dist/src/main.js",
     "prisma:generate": "prisma generate",
     "prisma:push": "prisma db push",
-    "start:dev": "npm run prisma:generate && tsnd --respawn src/main.ts",
+    "start:dev": "npm run prisma:generate && tsnd --respawn --poll src/main.ts",
     "dev": "npm run start:dev",
     "test": "npm run test:unit",
     "test:unit": "npm run prisma:generate && NODE_ENV=test jest --coverage",

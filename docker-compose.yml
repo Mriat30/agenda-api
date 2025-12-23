@@ -29,7 +29,7 @@ services:
       context: .
       dockerfile: Dockerfile.dev
     container_name: ts-service-app
-    command: /bin/bash
+    command: npm run dev
     stdin_open: true
     tty: true
     ports:

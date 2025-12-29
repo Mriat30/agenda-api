@@ -8,3 +8,11 @@ Característica: Registro de un usuario
     Dado que no existe un usuario registrado con el telefono "1234567890"
     Cuando registro un usuario con nombre "Juan", teléfono "1234567890" y email "juanperez@gmail.com"
     Entonces el registro debe ser exitoso
+
+  Regla: Usuario no se puede registrar sin email o si esta tomado o no cumple con el formato
+
+    @wip
+    Escenario: RU2: Usuario no se puede registrar sin email
+      Dado que no existe un usuario registrado con el telefono "1234567890"
+      Cuando registro un usuario con nombre "Juan", telefono "1234567890"
+      Entonces el registro falla con Email requerido

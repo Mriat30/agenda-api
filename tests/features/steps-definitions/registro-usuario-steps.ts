@@ -44,3 +44,17 @@ Then(
     expect(usuarioEncontrado?.email).to.equal(email);
   }
 );
+When(
+  /^registro un usuario con nombre "([^"]*)", telefono "([^"]*)"$/,
+  async function (this: CustomWorld, nombre: string, telefono: string) {
+    this.lastResponse = await request(app).post("/users").send({
+      name: nombre,
+      phone: telefono,
+      email: null,
+    });
+  }
+);
+
+Then(/^el registro falla con Email requerido$/, function () {
+  expect(this.lastResponse?.status).to.gte(400);
+});

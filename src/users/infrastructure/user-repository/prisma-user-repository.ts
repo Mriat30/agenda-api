@@ -8,12 +8,12 @@ export class PrismaUserRepository implements UserRepository {
       where: { id: user.id },
       update: {
         email: user.email,
-        slackUserId: user.slackUserId,
+        slackUserId: user.phone,
       },
       create: {
         id: user.id,
         email: user.email,
-        slackUserId: user.slackUserId,
+        slackUserId: user.phone,
       },
     });
   }

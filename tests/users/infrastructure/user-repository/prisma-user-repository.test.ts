@@ -27,7 +27,7 @@ describe("PrismaUserRepository Integration", () => {
 
       expect(foundUser?.id).toBe(userId);
       expect(foundUser?.email).toBe(userEmail);
-      expect(foundUser?.slackUserId).toBe(slackId);
+      expect(foundUser?.phone).toBe(slackId);
     });
   });
 });

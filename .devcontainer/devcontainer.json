@@ -3,14 +3,17 @@
   "dockerComposeFile": "../docker-compose.yml",
   "service": "app",
   "workspaceFolder": "/app",
-  "postCreateCommand": "npm install",
   "customizations": {
     "vscode": {
       "extensions": [
         "dbaeumer.vscode-eslint",
         "esbenp.prettier-vscode",
-        "prisma.prisma"
+        "prisma.prisma",
+        "alexkrechik.cucumberautocomplete"
       ]
     }
-  }
+  },
+  "postCreateCommand": "npm install && npx prisma generate",
+  "forwardPorts": [3000],
+  "shutdownAction": "stopCompose"
 }

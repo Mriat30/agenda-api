@@ -1,54 +1,46 @@
-/*
 import { Given, Then, When } from "@cucumber/cucumber";
 import { expect } from "chai";
+import request from "supertest";
 
-import { User } from "../../../src/users/domain/user";
-import { PrismaUserRepository } from "../../../src/users/infrastructure/user-repository/prisma-user-repository"
-
-let userRepository: PrismaUserRepository;
-let errorRegistro: any;
-let usuarioRegistrado: User | null;
+import { app } from "../../../src/app";
+import { CustomWorld } from "../support/world";
 
 Given(
-  "que no existe un usuario registrado con el email {string}",
-  function (email: string) {
-    userRepository = new PrismaUserRepository();
-
-    const user = userRepository.getByEmail(email);
+  "que no existe un usuario registrado con el telefono {string}",
+  async function (this: CustomWorld, telefono: string) {
+    await this.prisma.user.deleteMany({
+      where: { phone: telefono },
+    });
   }
 );
 
 When(
   "registro un usuario con nombre {string}, teléfono {string} y email {string}",
-  async function (nombre: string, telefono: string, email: string) {
-    try {
-      const nuevoUsuario = new User(
-        "id-generado-o-mock",
-        nombre,
-        email,
-        telefono
-      );
-
-      await userRepository.save(nuevoUsuario);
-      usuarioRegistrado = nuevoUsuario;
-    } catch (error) {
-      errorRegistro = error;
-    }
+  async function (
+    this: CustomWorld,
+    nombre: string,
+    telefono: string,
+    email: string
+  ) {
+    this.lastResponse = await request(app).post("/users").send({
+      name: nombre,
+      phone: telefono,
+      email: email,
+    });
   }
 );
 
-Then("el registro debe ser exitoso", function () {
-  expect(errorRegistro).to.be.undefined;
+Then("el registro debe ser exitoso", function (this: CustomWorld) {
+  expect(this.lastResponse?.status).to.equal(201);
 });
 
 Then(
   "el usuario {string} debe existir en el sistema",
-  async function (email: string) {
-    const usuarios = await userRepository.findAll();
-    const usuarioEncontrado = usuarios.find((u) => u.email === email);
-
-    expect(usuarioEncontrado).to.not.be.undefined;
-    expect(usuarioEncontrado?.name).to.equal("Juan");
+  async function (this: CustomWorld, email: string) {
+    const usuarioEncontrado = await this.prisma.user.findUnique({
+      where: { email: email },
+    });
+    expect(usuarioEncontrado).to.not.be.null;
+    expect(usuarioEncontrado?.email).to.equal(email);
   }
 );
-* */

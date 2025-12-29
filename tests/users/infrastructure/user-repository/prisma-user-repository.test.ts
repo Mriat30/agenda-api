@@ -14,20 +14,20 @@ describe("PrismaUserRepository Integration", () => {
     await DatabaseHelper.disconnect();
   });
 
-  describe("getById", () => {
-    it("debe guardar un usuario y permitir recuperarlo por su ID", async () => {
-      const userId = "user-123";
+  describe("getByPhoneNumber", () => {
+    it("should return a user by the phone number", async () => {
+      const name = "mateo";
       const userEmail = "mateo@example.com";
-      const slackId = "U888999";
-      const user = new User(userId, "", userEmail, slackId);
+      const phone = "888999";
+      const user = new User(name, userEmail, phone);
 
       await repository.save(user);
 
-      const foundUser = await repository.getById(userId);
+      const foundUser = await repository.getByPhoneNumber(phone);
 
-      expect(foundUser?.id).toBe(userId);
+      expect(foundUser?.name).toBe(name);
       expect(foundUser?.email).toBe(userEmail);
-      expect(foundUser?.phone).toBe(slackId);
+      expect(foundUser?.phone).toBe(phone);
     });
   });
 });

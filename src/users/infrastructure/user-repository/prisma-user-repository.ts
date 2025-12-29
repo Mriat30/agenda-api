@@ -5,29 +5,30 @@ import { UserRepository } from "../../domain/user-repository";
 export class PrismaUserRepository implements UserRepository {
   async save(user: User): Promise<void> {
     await prisma.user.upsert({
-      where: { id: user.id },
+      where: { id: user.id || "" },
       update: {
+        name: user.name,
         email: user.email,
-        slackUserId: user.phone,
+        phone: user.phone,
       },
       create: {
-        id: user.id,
+        name: user.name,
         email: user.email,
-        slackUserId: user.phone,
+        phone: user.phone,
       },
     });
   }
 
-  async getById(id: string): Promise<User | null> {
-    const prismaUser = await prisma.user.findUnique({ where: { id } });
+  async getByPhoneNumber(phone: string): Promise<User | null> {
+    const prismaUser = await prisma.user.findUnique({ where: { phone } });
 
     if (!prismaUser) return null;
 
     return new User(
-      prismaUser.id,
-      "",
+      prismaUser.name,
       prismaUser.email,
-      prismaUser.slackUserId
+      prismaUser.phone,
+      prismaUser.id
     );
   }
 }

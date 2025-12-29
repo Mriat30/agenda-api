@@ -1,5 +1,10 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
-docker exec -t ts-service-app npm run test:all
-docker exec -t ts-service-app npm run build
+if command -v docker >/dev/null 2>&1; then
+    docker exec -t ts-service-app npm run test:all
+    docker exec -t ts-service-app npm run build
+else
+    npm run test:all
+    npm run build
+fi

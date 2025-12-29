@@ -23,6 +23,11 @@ export class PrismaUserRepository implements UserRepository {
 
     if (!prismaUser) return null;
 
-    return new User(prismaUser.id, prismaUser.email, prismaUser.slackUserId);
+    return new User(
+      prismaUser.id,
+      "",
+      prismaUser.email,
+      prismaUser.slackUserId
+    );
   }
 }

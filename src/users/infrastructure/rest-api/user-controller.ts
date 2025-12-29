@@ -1,13 +1,13 @@
 import { Request, Response } from "express";
 
-import { WelcomeMessageSender } from "../../application/welcome-message-sender";
+import { RegisterUser } from "../../application/register-user";
 
 export class UserController {
-  constructor(private readonly welcomeMessageSender: WelcomeMessageSender) {}
+  constructor(private readonly registerUser: RegisterUser) {}
 
-  async sendWelcomeMessage(req: Request, res: Response) {
-    const { id: userId } = req.params;
-    await this.welcomeMessageSender.sendToUser(userId);
-    res.status(200).send();
+  async register(req: Request, res: Response) {
+    const { name, email, phone } = req.body;
+    await this.registerUser.register(name, email, phone);
+    res.status(201).send();
   }
 }

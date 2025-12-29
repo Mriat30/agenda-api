@@ -13,9 +13,9 @@ describe("RegisterUser", () => {
 
   it("should save a user in the repository", async () => {
     const registerUser = new RegisterUser(repository);
-    const newUser = new User("", "test@gmail.com", "12345");
+    const newUser = new User("", "juan", "test@gmail.com", "12345");
 
-    await registerUser.register(newUser);
+    await registerUser.register("juan", "test@gmail.com", "12345");
 
     expect(repository.save).toHaveBeenCalledWith(newUser);
   });

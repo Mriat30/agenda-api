@@ -19,7 +19,7 @@ describe("PrismaUserRepository Integration", () => {
       const userId = "user-123";
       const userEmail = "mateo@example.com";
       const slackId = "U888999";
-      const user = new User(userId, userEmail, slackId);
+      const user = new User(userId, "", userEmail, slackId);
 
       await repository.save(user);
 

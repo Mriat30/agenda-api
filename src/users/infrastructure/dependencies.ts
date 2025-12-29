@@ -1,13 +1,8 @@
-import { emailSender, logger } from "../../shared/infrastructure/dependencies";
-import { WelcomeMessageSender } from "../application/welcome-message-sender";
+import { RegisterUser } from "../application/register-user";
 import { UserController } from "./rest-api/user-controller";
-import { InMemoryUserRepository } from "./user-repository/in-memory-user-repository";
+import { PrismaUserRepository } from "./user-repository/prisma-user-repository";
 
-const userRepository = new InMemoryUserRepository();
-const welcomeEmailSender = new WelcomeMessageSender(
-  userRepository,
-  emailSender,
-  logger
-);
+const userRepository = new PrismaUserRepository();
+const registerUser = new RegisterUser(userRepository);
 
-export const userController = new UserController(welcomeEmailSender);
+export const userController = new UserController(registerUser);

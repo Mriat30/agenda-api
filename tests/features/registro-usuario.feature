@@ -25,3 +25,10 @@ Característica: Registro de un usuario
       Dado que no existe un usuario registrado con el telefono "1234567890"
       Cuando registro un usuario con nombre "Juan", teléfono "1234567890" y email "juanperezgmail.com"
       Entonces el registro falla con Formato de email invalido
+
+  Regla: Un usuario no se puede registrar con un  telefono tomado
+    @wip
+    Escenario: RU5: Usuario no se puede registrar con un telefono tomado
+      Dado que existe un usuario registrado con el telefono "1234567890"
+      Cuando registro un usuario con nombre "Juan", teléfono "1234567890" y email "juanperez@gmail.com"
+      Entonces el registro falla con Telefono ya registrado

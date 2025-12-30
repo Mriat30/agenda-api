@@ -25,7 +25,7 @@ Given(
 
 Given(
   "que no existe un usuario registrado con telefono {string}",
-  async function (this: CustomWorld, nombre: string, telefono: string) {
+  async function (this: CustomWorld, telefono: string) {
     await this.prisma.user.deleteMany({
       where: { phone: telefono },
     });

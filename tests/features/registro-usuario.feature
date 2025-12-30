@@ -20,7 +20,7 @@ Característica: Registro de un usuario
       Dado que no existe un usuario registrado con el telefono "1234567890"
       Cuando registro un usuario con nombre "Juan", telefono " "
       Entonces el registro falla con Email requerido
-    @wip
+
     Escenario: RU4: Usuario no se puede registrar con un email con formato invalido
       Dado que no existe un usuario registrado con el telefono "1234567890"
       Cuando registro un usuario con nombre "Juan", teléfono "1234567890" y email "juanperezgmail.com"

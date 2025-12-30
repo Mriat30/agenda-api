@@ -23,7 +23,7 @@ describe("PrismaUserRepository Integration", () => {
 
       await repository.save(user);
 
-      const foundUser = await repository.getByPhoneNumber(phone);
+      const foundUser = await repository.findByPhoneNumber(phone);
 
       expect(foundUser?.name).toBe(name);
       expect(foundUser?.email).toBe(userEmail);

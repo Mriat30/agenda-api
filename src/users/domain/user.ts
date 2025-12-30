@@ -6,6 +6,14 @@ export class RequiredEmailError extends Error {
   }
 }
 
+export class InvalidEmailFormatError extends Error {
+  constructor(email: string) {
+    super(`El formato del email "${email}" no es válido.`);
+    this.name = "InvalidEmailFormatError";
+    Object.setPrototypeOf(this, InvalidEmailFormatError.prototype);
+  }
+}
+
 export class User {
   constructor(
     readonly name: string,
@@ -13,8 +21,17 @@ export class User {
     readonly phone: string,
     readonly id?: string
   ) {
+    this.validateEmail(email);
+  }
+
+  private validateEmail(email: string) {
     if (!email || email.trim() === "") {
       throw new RequiredEmailError();
+    }
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!emailRegex.test(email)) {
+      throw new InvalidEmailFormatError(email);
     }
   }
 }

@@ -15,3 +15,9 @@ Característica: Registro de un usuario
       Dado que no existe un usuario registrado con el telefono "1234567890"
       Cuando registro un usuario con nombre "Juan", telefono "1234567890"
       Entonces el registro falla con Email requerido
+
+    Escenario: RU3: Usuario no se puede registrar con un email vacio
+      Dado que no existe un usuario registrado con el telefono "1234567890"
+      Cuando registro un usuario con nombre "Juan", telefono " "
+      Entonces el registro falla con Email requerido
+

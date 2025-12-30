@@ -22,6 +22,16 @@ Given(
     await userRepository.save(userDomain);
   }
 );
+
+Given(
+  "que no existe un usuario registrado con telefono {string}",
+  async function (this: CustomWorld, nombre: string, telefono: string) {
+    await this.prisma.user.deleteMany({
+      where: { phone: telefono },
+    });
+  }
+);
+
 When(
   "consulto el usuario con telefono {string}",
   async function (this: CustomWorld, telefono: string) {
@@ -36,5 +46,13 @@ Then(
     expect(this.lastResponse?.status).to.equal(200);
     expect(this.lastResponse?.body.name).to.equal(nombre);
     expect(this.lastResponse?.body.phone).to.equal(telefono);
+  }
+);
+
+Then(
+  "la consulta falla con Usuario no encontrado",
+  function (this: CustomWorld) {
+    expect(this.lastResponse?.status).to.equal(404);
+    expect(this.lastResponse?.body.message).to.equal("Usuario no encontrado");
   }
 );

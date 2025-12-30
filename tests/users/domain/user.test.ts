@@ -6,4 +6,10 @@ describe("User", () => {
       new User("Mateo", null as never, "1");
     }).toThrow(RequiredEmailError);
   });
+
+  it("should throw RequiredEmailError if email is empty a string", () => {
+    expect(() => {
+      new User("Mateo", " ", "1");
+    }).toThrow(RequiredEmailError);
+  });
 });

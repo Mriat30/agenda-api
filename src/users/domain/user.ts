@@ -13,7 +13,7 @@ export class User {
     readonly phone: string,
     readonly id?: string
   ) {
-    if (!email) {
+    if (!email || email.trim() === "") {
       throw new RequiredEmailError();
     }
   }

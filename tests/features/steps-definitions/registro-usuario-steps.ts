@@ -58,3 +58,10 @@ When(
 Then("el registro falla con Email requerido", function (this: CustomWorld) {
   expect(this.lastResponse?.status).to.equal(422);
 });
+
+Then(
+  "el registro falla con Formato de email invalido",
+  function (this: CustomWorld) {
+    expect(this.lastResponse?.status).to.equal(400);
+  }
+);

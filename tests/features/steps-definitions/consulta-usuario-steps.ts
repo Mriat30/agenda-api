@@ -15,9 +15,9 @@ Given(
     await this.prisma.user.deleteMany({
       where: { phone: telefono },
     });
-
-    const email = `${nombre.toLowerCase()}@test.com`;
-    const userDomain = new User(nombre, email, telefono);
+    const apellido = "Perez";
+    const direccion = "Calle Falsa 123";
+    const userDomain = new User("1", nombre, apellido, telefono, direccion);
 
     await userRepository.save(userDomain);
   }

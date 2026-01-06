@@ -1,15 +1,26 @@
-FROM node:20-bullseye-slim
+FROM node:20-bullseye
+
 RUN apt-get update && apt-get install -y \
     openssl \
     libssl-dev \
     git \
     procps \
+    curl \
+    ca-certificates \
+    tar \
+    gzip \
     && rm -rf /var/lib/apt/lists/*
 
+RUN mkdir -p /.jbdevcontainer && chmod 777 /.jbdevcontainer
+
 WORKDIR /app
+
 RUN git config --global --add safe.directory /app
+
 COPY package*.json ./
 RUN npm install
 COPY . .
-EXPOSE 3000
-CMD ["npm", "run", "start:dev"]
+
+EXPOSE 3008
+
+CMD ["npm", "run", "dev"]

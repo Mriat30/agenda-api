@@ -14,7 +14,7 @@ describe("GetUserByPhoneNumber", () => {
 
   it("should return a user from the repository if it exists", async () => {
     const getUserByPhoneNumber = new GetUserByPhoneNumber(repository);
-    const aUser = new User("juan", "test@gmail.com", "12345");
+    const aUser = new User("1", "juan", "test", "12345", "Esquel 770");
 
     (repository.findByPhoneNumber as jest.Mock).mockResolvedValue(aUser);
 

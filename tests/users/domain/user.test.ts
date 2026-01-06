@@ -1,25 +1,25 @@
 import {
-  InvalidEmailFormatError,
-  RequiredEmailError,
+  InvalidNameFormatError,
+  RequiredNameError,
   User,
 } from "../../../src/users/domain/user";
 
 describe("User", () => {
-  it("should throw RequiredEmailError if the email is not provided", () => {
+  it("should throw RequiredNameError if the name is not provided", () => {
     expect(() => {
-      new User("Mateo", null as never, "1");
-    }).toThrow(RequiredEmailError);
+      new User("1", null as never, "Riat", "123", "Esquel 770");
+    }).toThrow(RequiredNameError);
   });
 
-  it("should throw RequiredEmailError if email is empty a string", () => {
+  it("should throw RequiredNameError if name is empty a string", () => {
     expect(() => {
-      new User("Mateo", " ", "1");
-    }).toThrow(RequiredEmailError);
+      new User("1", "", "Riat", "123", "Esquel 770");
+    }).toThrow(RequiredNameError);
   });
 
-  it("should throw InvalidEmailFormatError if the email is invalid", () => {
+  it("should throw InvalidNameFormatError if the name is invalid", () => {
     expect(() => {
-      new User("Mateo", "mateo.com", "123");
-    }).toThrow(InvalidEmailFormatError);
+      new User("1", "Mateo123", "Riat", "123", "Esquel 770");
+    }).toThrow(InvalidNameFormatError);
   });
 });

@@ -4,8 +4,14 @@ import { UserRepository } from "../domain/user-repository";
 export class RegisterUser {
   constructor(private readonly userRepository: UserRepository) {}
 
-  async register(name: string, email: string, phone: string): Promise<void> {
-    const newUser = new User(name, email, phone);
+  async register(
+    idTelegram: string,
+    name: string,
+    lastName: string,
+    phone: string,
+    address: string
+  ): Promise<void> {
+    const newUser = new User(idTelegram, name, lastName, phone, address);
     const existingUser = await this.userRepository.findByPhoneNumber(phone);
 
     if (existingUser) {

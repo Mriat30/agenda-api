@@ -16,7 +16,13 @@ export class CustomWorld extends World {
     await this.prisma.$transaction([this.prisma.user.deleteMany({})]);
   }
 
-  async createTestUser(data: { name: string; phone: string; email: string }) {
+  async createTestUser(data: {
+    telegram_id: string;
+    name: string;
+    last_name: string;
+    phone: string;
+    address: string;
+  }) {
     return await this.prisma.user.create({ data });
   }
 

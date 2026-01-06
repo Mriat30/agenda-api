@@ -16,18 +16,22 @@ describe("PrismaUserRepository Integration", () => {
 
   describe("getByPhoneNumber", () => {
     it("should return a user by the phone number", async () => {
+      const telegramId = "1";
       const name = "mateo";
-      const userEmail = "mateo@example.com";
+      const lastName = "test";
       const phone = "888999";
-      const user = new User(name, userEmail, phone);
+      const address = "Esquel 770";
+      const user = new User(telegramId, name, lastName, phone, address);
 
       await repository.save(user);
 
       const foundUser = await repository.findByPhoneNumber(phone);
 
+      expect(foundUser?.telegramId).toBe(telegramId);
       expect(foundUser?.name).toBe(name);
-      expect(foundUser?.email).toBe(userEmail);
+      expect(foundUser?.lastName).toBe(lastName);
       expect(foundUser?.phone).toBe(phone);
+      expect(foundUser?.address).toBe(address);
     });
   });
 });

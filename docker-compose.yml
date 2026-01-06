@@ -11,6 +11,8 @@ services:
       - "5432:5432"
     volumes:
       - dev_postgres_data:/var/lib/postgresql/data
+    networks:
+      - localdev
 
   test_db:
     image: postgres:15-alpine
@@ -21,13 +23,15 @@ services:
       POSTGRES_DB: test_db
     ports:
       - "5433:5432"
+    networks:
+      - localdev
 
   app:
     build:
       context: .
       dockerfile: Dockerfile.dev
     container_name: ts-service-app
-    command: tail -f /dev/null
+    command: npm run dev
     stdin_open: true
     tty: true
     ports:
@@ -43,6 +47,12 @@ services:
       - PORT=3000
       - DATABASE_URL=postgresql://dev_user:dev_password@dev_db:5432/dev_db?schema=public
       - TEST_DB_URL=postgresql://test_user:test_password@test_db:5432/test_db?schema=public
+    networks:
+      - localdev
 
 volumes:
   dev_postgres_data:
+
+networks:
+  localdev:
+    external: true

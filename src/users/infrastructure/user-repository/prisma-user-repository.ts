@@ -36,4 +36,8 @@ export class PrismaUserRepository implements UserRepository {
       prismaUser.id
     );
   }
+
+  async findByTelegramId(telegramId: string): Promise<User | null> {
+    return null;
+  }
 }

@@ -38,6 +38,18 @@ export class PrismaUserRepository implements UserRepository {
   }
 
   async findByTelegramId(telegramId: string): Promise<User | null> {
-    return null;
+    const telegram_id = telegramId;
+    const prismaUser = await prisma.user.findUnique({ where: { telegram_id } });
+
+    if (!prismaUser) return null;
+
+    return new User(
+      prismaUser.telegram_id,
+      prismaUser.name,
+      prismaUser.last_name,
+      prismaUser.phone,
+      prismaUser.address,
+      prismaUser.id
+    );
   }
 }

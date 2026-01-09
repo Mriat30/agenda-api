@@ -34,4 +34,24 @@ describe("PrismaUserRepository Integration", () => {
       expect(foundUser?.address).toBe(address);
     });
   });
+
+  describe("getByTelegramId", () => {
+    it("should return a user by the telegram id", async () => {
+      const telegramId = "2";
+      const name = "juan";
+      const lastName = "perez";
+      const phone = "777666";
+      const address = "Calle Falsa 123";
+      const user = new User(telegramId, name, lastName, phone, address);
+
+      await repository.save(user);
+
+      const foundUser = await repository.findByTelegramId(telegramId);
+
+      expect(foundUser?.name).toBe(name);
+      expect(foundUser?.lastName).toBe(lastName);
+      expect(foundUser?.phone).toBe(phone);
+      expect(foundUser?.address).toBe(address);
+    });
+  });
 });

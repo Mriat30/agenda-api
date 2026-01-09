@@ -14,7 +14,6 @@ Característica: Consulta de usuario registrado
     Cuando consulto el usuario con telefono "0987654321"
     Entonces la consulta falla con Usuario no encontrado
 
-  @wip
   Escenario: CU3: Consulta exitosa por id de telegram de un usuario registrado
     Dado que existe un usuario registrado de nombre "Juan", idTelegram "55555" y telefono "1234567890"
     Cuando consulto el usuario con idTelegram "55555"

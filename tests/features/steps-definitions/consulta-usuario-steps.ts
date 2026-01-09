@@ -73,7 +73,7 @@ When(
   async function (this: CustomWorld, idTelegram: string) {
     this.lastResponse = await request(app)
       .get("/users")
-      .query({ telegram_id: idTelegram });
+      .query({ telegramId: idTelegram });
   }
 );
 
@@ -96,7 +96,7 @@ Then(
   ) {
     expect(this.lastResponse?.status).to.equal(200);
     expect(this.lastResponse?.body.name).to.equal(nombre);
-    expect(this.lastResponse?.body.id_telegram).to.equal(idTelegram);
+    expect(this.lastResponse?.body.telegramId).to.equal(idTelegram);
     expect(this.lastResponse?.body.phone).to.equal(telefono);
   }
 );

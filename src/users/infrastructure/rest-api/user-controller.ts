@@ -44,17 +44,21 @@ export class UserController {
   }
 
   async get(req: Request, res: Response) {
-    const phone = req.query.phone as string;
+    const { phone } = req.query;
     try {
       if (phone) {
-        const user = await this.getUserByPhone.getUser(phone);
-        if (!user) {
-          return res.status(404).json({ message: "Usuario no encontrado" });
-        }
-        return res.status(200).json(user);
+        return await this.handleGetUserByPhone(phone as string, res);
       }
     } catch (error) {
       res.status(500).json({ message: "Internal server error" });
     }
+  }
+
+  private async handleGetUserByPhone(phoneNumber: string, res: Response) {
+    const user = await this.getUserByPhone.getUser(phoneNumber);
+    if (!user) {
+      return res.status(404).json({ message: "Usuario no encontrado" });
+    }
+    return res.status(200).json(user);
   }
 }

@@ -24,6 +24,33 @@ Given(
 );
 
 Given(
+  /^que existe un usuario registrado de nombre "([^"]*)", idTelegram "([^"]*)" y telefono "([^"]*)"$/,
+  async function (
+    this: CustomWorld,
+    nombre: string,
+    telegramId: string,
+    telefono: string
+  ) {
+    const userRepository = new PrismaUserRepository();
+
+    await this.prisma.user.deleteMany({
+      where: { telegram_id: telegramId },
+    });
+    const apellido = "Perez";
+    const direccion = "Calle Falsa 123";
+    const userDomain = new User(
+      telegramId,
+      nombre,
+      apellido,
+      telefono,
+      direccion
+    );
+
+    await userRepository.save(userDomain);
+  }
+);
+
+Given(
   "que no existe un usuario registrado con telefono {string}",
   async function (this: CustomWorld, telefono: string) {
     await this.prisma.user.deleteMany({
@@ -40,11 +67,36 @@ When(
       .query({ phone: telefono });
   }
 );
+
+When(
+  "consulto el usuario con idTelegram {string}",
+  async function (this: CustomWorld, idTelegram: string) {
+    this.lastResponse = await request(app)
+      .get("/users")
+      .query({ telegram_id: idTelegram });
+  }
+);
+
 Then(
   "la consulta es exitosa y obtengo el nombre {string} y telefono {string}",
   function (this: CustomWorld, nombre: string, telefono: string) {
     expect(this.lastResponse?.status).to.equal(200);
     expect(this.lastResponse?.body.name).to.equal(nombre);
+    expect(this.lastResponse?.body.phone).to.equal(telefono);
+  }
+);
+
+Then(
+  "la consulta es exitosa y obtengo el nombre {string}, idTelegram {string} y telefono {string}",
+  function (
+    this: CustomWorld,
+    nombre: string,
+    idTelegram: string,
+    telefono: string
+  ) {
+    expect(this.lastResponse?.status).to.equal(200);
+    expect(this.lastResponse?.body.name).to.equal(nombre);
+    expect(this.lastResponse?.body.id_telegram).to.equal(idTelegram);
     expect(this.lastResponse?.body.phone).to.equal(telefono);
   }
 );

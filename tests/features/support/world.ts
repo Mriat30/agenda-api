@@ -2,11 +2,13 @@ import { IWorldOptions, setWorldConstructor, World } from "@cucumber/cucumber";
 import type { Response } from "supertest";
 
 import { prisma } from "../../../src/infraestructure/db/prisma";
+import { ProveedorDeFechaYHoraFake } from "../../../src/proveedor_de_tiempo/infraestructura/proveedor-de-fecha-y-hora-fake";
 
 export class CustomWorld extends World {
   public prisma = prisma;
   public lastResponse?: Response;
   public testData: Record<string, any> = {};
+  public proveedorDeFechaYHora!: ProveedorDeFechaYHoraFake;
 
   constructor(options: IWorldOptions) {
     super(options);

@@ -14,7 +14,7 @@ describe("PrismaUsuariosRepositorio Integration", () => {
     await DatabaseHelper.disconnect();
   });
 
-  describe("getByPhoneNumber", () => {
+  describe("obtenerPorNumeroDeTelefono", () => {
     it("should return a user by the phone number", async () => {
       const telegramId = "1";
       const name = "mateo";
@@ -35,7 +35,7 @@ describe("PrismaUsuariosRepositorio Integration", () => {
     });
   });
 
-  describe("getByTelegramId", () => {
+  describe("obtenerPorTelegramId", () => {
     it("should return a user by the telegram id", async () => {
       const telegramId = "2";
       const name = "juan";
@@ -52,6 +52,13 @@ describe("PrismaUsuariosRepositorio Integration", () => {
       expect(foundUser?.lastName).toBe(lastName);
       expect(foundUser?.phone).toBe(phone);
       expect(foundUser?.address).toBe(address);
+    });
+  });
+
+  describe("obtenerTodos", () => {
+    it("si no existen usuarios, deberia devolver un arreglo vacio", async () => {
+      const users = await repository.obtenerTodos();
+      expect(users).toEqual([]);
     });
   });
 });

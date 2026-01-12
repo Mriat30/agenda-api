@@ -1,8 +1,11 @@
 import { prisma } from "../../../infraestructure/db/prisma";
+import { RepositorioBase } from "../../../shared/domain/repositorio_base";
 import { User } from "../../domain/user";
 import { UsuariosRepositorio } from "../../domain/user-repository";
 
-export class PrismaUsuariosRepositorio implements UsuariosRepositorio {
+export class PrismaUsuariosRepositorio
+  implements UsuariosRepositorio, RepositorioBase<User>
+{
   async guardar(user: User): Promise<void> {
     await prisma.user.upsert({
       where: { telegram_id: user.telegramId },
@@ -51,5 +54,13 @@ export class PrismaUsuariosRepositorio implements UsuariosRepositorio {
       prismaUser.address,
       prismaUser.id
     );
+  }
+
+  async obtenerTodos(): Promise<User[]> {
+    return [];
+  }
+
+  async borrarTodos(): Promise<void> {
+    // Falta implementar
   }
 }

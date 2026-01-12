@@ -10,11 +10,16 @@ export class AgendarTurnoUnico {
     masaje: string,
     horaInicio: Date,
     horaFin: Date,
-    fecha: Date,
-    estado: string
+    fecha: Date
   ): Promise<void> {
     const slot = new Slot(horaInicio, horaFin);
-    const nuevoTurno = new TurnoUnico(telegramId, masaje, slot, fecha, estado);
+    const nuevoTurno = new TurnoUnico(
+      telegramId,
+      masaje,
+      slot,
+      fecha,
+      "pendiente"
+    );
     await this.turnosRepositorio.guardar(nuevoTurno);
   }
 }

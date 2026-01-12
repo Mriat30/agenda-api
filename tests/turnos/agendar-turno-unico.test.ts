@@ -30,8 +30,7 @@ describe("AgendarTurnoUnico", () => {
       nuevoTurnoUnico.masaje,
       nuevoTurnoUnico.slot.horaInicio,
       nuevoTurnoUnico.slot.horaFin,
-      nuevoTurnoUnico.fecha,
-      nuevoTurnoUnico.estado
+      nuevoTurnoUnico.fecha
     );
 
     expect(repositorioTurnos.guardar).toHaveBeenCalledWith(nuevoTurnoUnico);

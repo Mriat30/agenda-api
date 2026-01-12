@@ -15,9 +15,11 @@ export class CustomWorld extends World {
   }
 
   async cleanDatabase() {
-    await this.prisma.$transaction([this.prisma.user.deleteMany({})]);
+    await this.prisma.$transaction([
+      this.prisma.turnoUnico.deleteMany(),
+      this.prisma.user.deleteMany(),
+    ]);
   }
-
   async createTestUser(data: {
     telegram_id: string;
     name: string;

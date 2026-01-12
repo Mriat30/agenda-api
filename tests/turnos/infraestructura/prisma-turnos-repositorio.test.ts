@@ -1,7 +1,7 @@
 import { prisma } from "../../../src/infraestructure/db/prisma";
 import { Slot } from "../../../src/turnos/dominio/slot";
 import { TurnoUnico } from "../../../src/turnos/dominio/turno-unico";
-import { PrismaTurnosRepositorio } from "../../../src/turnos/infraestructura/prisma-turnos-repositorio";
+import { PrismaTurnosRepositorio } from "../../../src/turnos/infraestructura/repositorio/prisma-turnos-repositorio";
 import { DatabaseHelper } from "../../database-helper";
 
 describe("PrismaTurnosRepositorio Integration", () => {

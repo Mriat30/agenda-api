@@ -1,6 +1,6 @@
-import { prisma } from "../../infraestructure/db/prisma";
-import { TurnoUnico } from "../dominio/turno-unico";
-import { TurnosRepositorio } from "../dominio/turnos_repositorio";
+import { prisma } from "../../../infraestructure/db/prisma";
+import { TurnoUnico } from "../../dominio/turno-unico";
+import { TurnosRepositorio } from "../../dominio/turnos_repositorio";
 
 export class PrismaTurnosRepositorio implements TurnosRepositorio {
   async guardar(turno: TurnoUnico): Promise<void> {

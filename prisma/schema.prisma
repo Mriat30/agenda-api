@@ -9,10 +9,25 @@ datasource db {
 }
 
 model User {
-  id String  @id @default(uuid())
-  telegram_id String @unique
-  name String
-  last_name String
-  phone String @unique
-  address String
+  id          String       @id @default(uuid())
+  telegram_id String       @unique
+  name        String
+  last_name   String
+  phone       String       @unique
+  address     String
+  TurnoUnico  TurnoUnico[]
+}
+
+model TurnoUnico {
+  id         String   @id @default(uuid())
+  telegramId String   @map("telegram_id")
+  masaje     String
+  horaInicio DateTime @map("hora_inicio")
+  horaFin    DateTime @map("hora_fin")
+  fecha      DateTime @db.Date
+  estado     String
+
+  user User @relation(fields: [telegramId], references: [telegram_id])
+
+  @@map("turno_unico")
 }

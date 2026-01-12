@@ -7,6 +7,6 @@ export class TurnoUnico {
     readonly slot: Slot,
     readonly fecha: Date,
     readonly estado: string,
-    readonly id?: number
+    readonly id?: string
   ) {}
 }

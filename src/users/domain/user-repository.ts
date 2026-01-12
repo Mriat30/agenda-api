@@ -1,7 +1,7 @@
 import { User } from "./user";
 
 export interface UsuariosRepositorio {
-  findByPhoneNumber(phone: string): Promise<User | null>;
+  obtenerPorNumeroDeTelefono(phone: string): Promise<User | null>;
   findByTelegramId(telegramId: string): Promise<User | null>;
   guardar(user: User): Promise<void>;
 }

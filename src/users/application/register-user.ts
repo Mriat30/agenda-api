@@ -12,9 +12,8 @@ export class RegisterUser {
     address: string
   ): Promise<void> {
     const newUser = new User(idTelegram, name, lastName, phone, address);
-    const existingUser = await this.UsuariosRepositorio.findByPhoneNumber(
-      phone
-    );
+    const existingUser =
+      await this.UsuariosRepositorio.obtenerPorNumeroDeTelefono(phone);
 
     if (existingUser) {
       throw new PhoneNumberAlreadyExistsError(phone);

@@ -11,7 +11,7 @@ describe("RegisterUser", () => {
   beforeEach(() => {
     repository = {
       guardar: jest.fn(),
-      findByPhoneNumber: jest.fn(),
+      obtenerPorNumeroDeTelefono: jest.fn(),
     } as unknown as jest.Mocked<UsuariosRepositorio>;
   });
 
@@ -35,12 +35,16 @@ describe("RegisterUser", () => {
       usedPhoneNumber,
       "Esquel 770"
     );
-    (repository.findByPhoneNumber as jest.Mock).mockResolvedValue(existingUser);
+    (repository.obtenerPorNumeroDeTelefono as jest.Mock).mockResolvedValue(
+      existingUser
+    );
 
     await expect(
       registerUser.register("1", "pedro", "test", usedPhoneNumber, "Esquel 770")
     ).rejects.toThrow(PhoneNumberAlreadyExistsError);
-    expect(repository.findByPhoneNumber).toHaveBeenCalledWith(usedPhoneNumber);
+    expect(repository.obtenerPorNumeroDeTelefono).toHaveBeenCalledWith(
+      usedPhoneNumber
+    );
     expect(repository.guardar).not.toHaveBeenCalled();
   });
 });

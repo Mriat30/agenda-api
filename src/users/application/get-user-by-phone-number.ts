@@ -5,6 +5,6 @@ export class GetUserByPhoneNumber {
   constructor(private readonly UsuariosRepositorio: UsuariosRepositorio) {}
 
   async getUser(phoneNumber: string): Promise<User | null> {
-    return this.UsuariosRepositorio.findByPhoneNumber(phoneNumber);
+    return this.UsuariosRepositorio.obtenerPorNumeroDeTelefono(phoneNumber);
   }
 }

@@ -8,7 +8,7 @@ describe("GetUserByPhoneNumber", () => {
   beforeEach(() => {
     repository = {
       guardar: jest.fn(),
-      findByPhoneNumber: jest.fn(),
+      obtenerPorNumeroDeTelefono: jest.fn(),
     } as unknown as jest.Mocked<UsuariosRepositorio>;
   });
 
@@ -16,11 +16,15 @@ describe("GetUserByPhoneNumber", () => {
     const getUserByPhoneNumber = new GetUserByPhoneNumber(repository);
     const aUser = new User("1", "juan", "test", "12345", "Esquel 770");
 
-    (repository.findByPhoneNumber as jest.Mock).mockResolvedValue(aUser);
+    (repository.obtenerPorNumeroDeTelefono as jest.Mock).mockResolvedValue(
+      aUser
+    );
 
     const existingUser = await getUserByPhoneNumber.getUser(aUser.phone);
 
     expect(existingUser).toEqual(aUser);
-    expect(repository.findByPhoneNumber).toHaveBeenCalledWith(aUser.phone);
+    expect(repository.obtenerPorNumeroDeTelefono).toHaveBeenCalledWith(
+      aUser.phone
+    );
   });
 });

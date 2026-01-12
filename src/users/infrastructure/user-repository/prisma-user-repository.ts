@@ -22,7 +22,7 @@ export class PrismaUsuariosRepositorio implements UsuariosRepositorio {
     });
   }
 
-  async findByPhoneNumber(phone: string): Promise<User | null> {
+  async obtenerPorNumeroDeTelefono(phone: string): Promise<User | null> {
     const prismaUser = await prisma.user.findUnique({ where: { phone } });
 
     if (!prismaUser) return null;

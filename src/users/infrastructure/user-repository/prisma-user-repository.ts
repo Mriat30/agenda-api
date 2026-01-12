@@ -3,7 +3,7 @@ import { User } from "../../domain/user";
 import { UsuariosRepositorio } from "../../domain/user-repository";
 
 export class PrismaUsuariosRepositorio implements UsuariosRepositorio {
-  async save(user: User): Promise<void> {
+  async guardar(user: User): Promise<void> {
     await prisma.user.upsert({
       where: { telegram_id: user.telegramId },
       update: {

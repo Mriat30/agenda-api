@@ -23,7 +23,7 @@ describe("PrismaUsuariosRepositorio Integration", () => {
       const address = "Esquel 770";
       const user = new User(telegramId, name, lastName, phone, address);
 
-      await repository.save(user);
+      await repository.guardar(user);
 
       const foundUser = await repository.findByPhoneNumber(phone);
 
@@ -44,7 +44,7 @@ describe("PrismaUsuariosRepositorio Integration", () => {
       const address = "Calle Falsa 123";
       const user = new User(telegramId, name, lastName, phone, address);
 
-      await repository.save(user);
+      await repository.guardar(user);
 
       const foundUser = await repository.findByTelegramId(telegramId);
 

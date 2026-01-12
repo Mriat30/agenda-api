@@ -10,18 +10,18 @@ describe("RegisterUser", () => {
 
   beforeEach(() => {
     repository = {
-      save: jest.fn(),
+      guardar: jest.fn(),
       findByPhoneNumber: jest.fn(),
     } as unknown as jest.Mocked<UsuariosRepositorio>;
   });
 
-  it("should save a user in the repository", async () => {
+  it("should guardar a user in the repository", async () => {
     const registerUser = new RegisterUser(repository);
     const newUser = new User("1", "juan", "test", "12345", "Esquel 770");
 
     await registerUser.register("1", "juan", "test", "12345", "Esquel 770");
 
-    expect(repository.save).toHaveBeenCalledWith(newUser);
+    expect(repository.guardar).toHaveBeenCalledWith(newUser);
   });
 
   it("should throw PhoneNumberAlreadyExistsError if user with same phone number exists", async () => {
@@ -41,6 +41,6 @@ describe("RegisterUser", () => {
       registerUser.register("1", "pedro", "test", usedPhoneNumber, "Esquel 770")
     ).rejects.toThrow(PhoneNumberAlreadyExistsError);
     expect(repository.findByPhoneNumber).toHaveBeenCalledWith(usedPhoneNumber);
-    expect(repository.save).not.toHaveBeenCalled();
+    expect(repository.guardar).not.toHaveBeenCalled();
   });
 });

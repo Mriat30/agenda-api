@@ -19,7 +19,7 @@ export class RegisterUser {
     if (existingUser) {
       throw new PhoneNumberAlreadyExistsError(phone);
     }
-    await this.UsuariosRepositorio.save(newUser);
+    await this.UsuariosRepositorio.guardar(newUser);
   }
 }
 

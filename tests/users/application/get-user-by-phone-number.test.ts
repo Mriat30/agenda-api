@@ -7,7 +7,7 @@ describe("GetUserByPhoneNumber", () => {
 
   beforeEach(() => {
     repository = {
-      save: jest.fn(),
+      guardar: jest.fn(),
       findByPhoneNumber: jest.fn(),
     } as unknown as jest.Mocked<UsuariosRepositorio>;
   });

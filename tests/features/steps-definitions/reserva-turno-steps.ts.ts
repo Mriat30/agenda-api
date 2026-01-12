@@ -27,7 +27,7 @@ Given("que estoy registrado", async function (this: CustomWorld) {
   );
 
   await this.prisma.user.deleteMany({ where: { telegram_id: "55555" } });
-  await UsuariosRepositorio.save(user);
+  await UsuariosRepositorio.guardar(user);
 });
 
 Given(

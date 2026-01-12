@@ -21,7 +21,7 @@ Given(
 Given(
   "que existe un usuario registrado con el telefono {string}",
   async function (this: CustomWorld, telefono: string) {
-    await UsuariosRepositorio.save(
+    await UsuariosRepositorio.guardar(
       new User("999", "Existente", "Usuario", telefono, "Calle 123")
     );
   }

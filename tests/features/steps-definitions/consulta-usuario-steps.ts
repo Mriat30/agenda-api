@@ -19,7 +19,7 @@ Given(
     const direccion = "Calle Falsa 123";
     const userDomain = new User("1", nombre, apellido, telefono, direccion);
 
-    await UsuariosRepositorio.save(userDomain);
+    await UsuariosRepositorio.guardar(userDomain);
   }
 );
 
@@ -46,7 +46,7 @@ Given(
       direccion
     );
 
-    await UsuariosRepositorio.save(userDomain);
+    await UsuariosRepositorio.guardar(userDomain);
   }
 );
 

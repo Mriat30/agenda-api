@@ -7,7 +7,7 @@ describe("GetUserByTelegramId", () => {
 
   beforeEach(() => {
     repository = {
-      findByTelegramId: jest.fn(),
+      obtenerPorTelegramId: jest.fn(),
     } as unknown as jest.Mocked<UsuariosRepositorio>;
   });
 
@@ -15,11 +15,13 @@ describe("GetUserByTelegramId", () => {
     const getUserByTelegramId = new GetUserByTelegramId(repository);
     const telegramId = "123456789";
     const aUser = new User(telegramId, "juan", "test", "12345", "Esquel 770");
-    (repository.findByTelegramId as jest.Mock).mockResolvedValue(aUser);
+    (repository.obtenerPorTelegramId as jest.Mock).mockResolvedValue(aUser);
 
     const existingUser = await getUserByTelegramId.getUser(telegramId);
 
     expect(existingUser).toEqual(aUser);
-    expect(repository.findByTelegramId).toHaveBeenCalledWith(aUser.telegramId);
+    expect(repository.obtenerPorTelegramId).toHaveBeenCalledWith(
+      aUser.telegramId
+    );
   });
 });

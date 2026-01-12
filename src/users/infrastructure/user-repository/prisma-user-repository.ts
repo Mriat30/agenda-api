@@ -37,7 +37,7 @@ export class PrismaUsuariosRepositorio implements UsuariosRepositorio {
     );
   }
 
-  async findByTelegramId(telegramId: string): Promise<User | null> {
+  async obtenerPorTelegramId(telegramId: string): Promise<User | null> {
     const telegram_id = telegramId;
     const prismaUser = await prisma.user.findUnique({ where: { telegram_id } });
 

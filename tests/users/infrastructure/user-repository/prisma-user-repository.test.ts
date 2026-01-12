@@ -46,7 +46,7 @@ describe("PrismaUsuariosRepositorio Integration", () => {
 
       await repository.guardar(user);
 
-      const foundUser = await repository.findByTelegramId(telegramId);
+      const foundUser = await repository.obtenerPorTelegramId(telegramId);
 
       expect(foundUser?.name).toBe(name);
       expect(foundUser?.lastName).toBe(lastName);

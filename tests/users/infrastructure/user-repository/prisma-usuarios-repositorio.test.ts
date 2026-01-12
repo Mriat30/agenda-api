@@ -90,4 +90,20 @@ describe("PrismaUsuariosRepositorio Integration", () => {
       );
     });
   });
+
+  describe("borrarTodos", () => {
+    it("deberia borrar todos los usuarios", async () => {
+      const user1 = new User("5", "Carlos", "Lopez", "555666", "Calle Sol 789");
+      const user2 = new User("6", "Marta", "Diaz", "777888", "Av. Luna 101");
+
+      await repository.guardar(user1);
+      await repository.guardar(user2);
+      let users = await repository.obtenerTodos();
+
+      await repository.borrarTodos();
+
+      users = await repository.obtenerTodos();
+      expect(users.length).toBe(0);
+    });
+  });
 });

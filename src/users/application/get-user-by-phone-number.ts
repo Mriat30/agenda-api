@@ -1,10 +1,10 @@
 import { User } from "../domain/user";
-import { UserRepository } from "../domain/user-repository";
+import { UsuariosRepositorio } from "../domain/user-repository";
 
 export class GetUserByPhoneNumber {
-  constructor(private readonly userRepository: UserRepository) {}
+  constructor(private readonly UsuariosRepositorio: UsuariosRepositorio) {}
 
   async getUser(phoneNumber: string): Promise<User | null> {
-    return this.userRepository.findByPhoneNumber(phoneNumber);
+    return this.UsuariosRepositorio.findByPhoneNumber(phoneNumber);
   }
 }

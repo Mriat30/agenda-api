@@ -1,8 +1,8 @@
 import { User } from "../domain/user";
-import { UserRepository } from "../domain/user-repository";
+import { UsuariosRepositorio } from "../domain/user-repository";
 
 export class RegisterUser {
-  constructor(private readonly userRepository: UserRepository) {}
+  constructor(private readonly UsuariosRepositorio: UsuariosRepositorio) {}
 
   async register(
     idTelegram: string,
@@ -12,12 +12,14 @@ export class RegisterUser {
     address: string
   ): Promise<void> {
     const newUser = new User(idTelegram, name, lastName, phone, address);
-    const existingUser = await this.userRepository.findByPhoneNumber(phone);
+    const existingUser = await this.UsuariosRepositorio.findByPhoneNumber(
+      phone
+    );
 
     if (existingUser) {
       throw new PhoneNumberAlreadyExistsError(phone);
     }
-    await this.userRepository.save(newUser);
+    await this.UsuariosRepositorio.save(newUser);
   }
 }
 

@@ -1,8 +1,8 @@
 import { prisma } from "../../../infraestructure/db/prisma";
 import { User } from "../../domain/user";
-import { UserRepository } from "../../domain/user-repository";
+import { UsuariosRepositorio } from "../../domain/user-repository";
 
-export class PrismaUserRepository implements UserRepository {
+export class PrismaUsuariosRepositorio implements UsuariosRepositorio {
   async save(user: User): Promise<void> {
     await prisma.user.upsert({
       where: { telegram_id: user.telegramId },

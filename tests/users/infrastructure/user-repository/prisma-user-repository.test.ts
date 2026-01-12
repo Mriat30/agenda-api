@@ -1,12 +1,12 @@
 import { User } from "../../../../src/users/domain/user";
-import { PrismaUserRepository } from "../../../../src/users/infrastructure/user-repository/prisma-user-repository";
+import { PrismaUsuariosRepositorio } from "../../../../src/users/infrastructure/user-repository/prisma-user-repository";
 import { DatabaseHelper } from "../../../database-helper";
 
-describe("PrismaUserRepository Integration", () => {
-  let repository: PrismaUserRepository;
+describe("PrismaUsuariosRepositorio Integration", () => {
+  let repository: PrismaUsuariosRepositorio;
 
   beforeEach(async () => {
-    repository = new PrismaUserRepository();
+    repository = new PrismaUsuariosRepositorio();
     await DatabaseHelper.cleanDatabase();
   });
 

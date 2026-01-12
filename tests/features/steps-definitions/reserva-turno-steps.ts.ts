@@ -5,7 +5,7 @@ import request from "supertest";
 import { app } from "../../../src/app";
 import { ProveedorDeFechaYHoraFake } from "../../../src/proveedor_de_tiempo/infraestructura/proveedor-de-fecha-y-hora-fake";
 import { User } from "../../../src/users/domain/user";
-import { PrismaUserRepository } from "../../../src/users/infrastructure/user-repository/prisma-user-repository";
+import { PrismaUsuariosRepositorio } from "../../../src/users/infrastructure/user-repository/prisma-user-repository";
 import { CustomWorld } from "../support/world";
 
 Given(
@@ -17,7 +17,7 @@ Given(
 );
 
 Given("que estoy registrado", async function (this: CustomWorld) {
-  const userRepository = new PrismaUserRepository();
+  const UsuariosRepositorio = new PrismaUsuariosRepositorio();
   const user = new User(
     "55555",
     "Juan",
@@ -27,7 +27,7 @@ Given("que estoy registrado", async function (this: CustomWorld) {
   );
 
   await this.prisma.user.deleteMany({ where: { telegram_id: "55555" } });
-  await userRepository.save(user);
+  await UsuariosRepositorio.save(user);
 });
 
 Given(
@@ -40,11 +40,19 @@ Given(
 When(
   "intento reservar el turno del {string} a las {string}",
   async function (this: CustomWorld, fecha: string, hora: string) {
-    this.lastResponse = await request(app).post("/appointments").send({
-      telegramId: "55555",
-      date: fecha,
-      time: hora,
-    });
+    const inicio = `${fecha}T${hora}:00Z`;
+    const finDate = new Date(inicio);
+    finDate.setHours(finDate.getHours() + 1);
+
+    this.lastResponse = await request(app)
+      .post("/turnos")
+      .send({
+        telegramId: "55555",
+        masaje: "Masaje Descontracturante",
+        horaInicio: inicio,
+        horaFin: finDate.toISOString(),
+        fecha: `${fecha}T00:00:00Z`,
+      });
   }
 );
 

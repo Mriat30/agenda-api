@@ -1,14 +1,14 @@
 import { GetUserByTelegramId } from "../../../src/users/application/get-user-by-telegram-id";
 import { User } from "../../../src/users/domain/user";
-import { UserRepository } from "../../../src/users/domain/user-repository";
+import { UsuariosRepositorio } from "../../../src/users/domain/user-repository";
 
 describe("GetUserByTelegramId", () => {
-  let repository: UserRepository;
+  let repository: UsuariosRepositorio;
 
   beforeEach(() => {
     repository = {
       findByTelegramId: jest.fn(),
-    } as unknown as jest.Mocked<UserRepository>;
+    } as unknown as jest.Mocked<UsuariosRepositorio>;
   });
 
   it("should return user from the repository when the user exists", async () => {

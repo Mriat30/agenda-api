@@ -4,10 +4,10 @@ import request from "supertest";
 
 import { app } from "../../../src/app";
 import { User } from "../../../src/users/domain/user";
-import { PrismaUserRepository } from "../../../src/users/infrastructure/user-repository/prisma-user-repository";
+import { PrismaUsuariosRepositorio } from "../../../src/users/infrastructure/user-repository/prisma-user-repository";
 import { CustomWorld } from "../support/world";
 
-const userRepository = new PrismaUserRepository();
+const UsuariosRepositorio = new PrismaUsuariosRepositorio();
 
 Given(
   "que no existe un usuario registrado con el telefono {string}",
@@ -21,7 +21,7 @@ Given(
 Given(
   "que existe un usuario registrado con el telefono {string}",
   async function (this: CustomWorld, telefono: string) {
-    await userRepository.save(
+    await UsuariosRepositorio.save(
       new User("999", "Existente", "Usuario", telefono, "Calle 123")
     );
   }

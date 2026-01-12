@@ -1,15 +1,15 @@
 import { GetUserByPhoneNumber } from "../../../src/users/application/get-user-by-phone-number";
 import { User } from "../../../src/users/domain/user";
-import { UserRepository } from "../../../src/users/domain/user-repository";
+import { UsuariosRepositorio } from "../../../src/users/domain/user-repository";
 
 describe("GetUserByPhoneNumber", () => {
-  let repository: UserRepository;
+  let repository: UsuariosRepositorio;
 
   beforeEach(() => {
     repository = {
       save: jest.fn(),
       findByPhoneNumber: jest.fn(),
-    } as unknown as jest.Mocked<UserRepository>;
+    } as unknown as jest.Mocked<UsuariosRepositorio>;
   });
 
   it("should return a user from the repository if it exists", async () => {

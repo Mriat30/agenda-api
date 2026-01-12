@@ -4,13 +4,13 @@ import request from "supertest";
 
 import { app } from "../../../src/app";
 import { User } from "../../../src/users/domain/user";
-import { PrismaUserRepository } from "../../../src/users/infrastructure/user-repository/prisma-user-repository";
+import { PrismaUsuariosRepositorio } from "../../../src/users/infrastructure/user-repository/prisma-user-repository";
 import { CustomWorld } from "../support/world";
 
 Given(
   "que existe un usuario registrado de nombre {string} y telefono {string}",
   async function (this: CustomWorld, nombre: string, telefono: string) {
-    const userRepository = new PrismaUserRepository();
+    const UsuariosRepositorio = new PrismaUsuariosRepositorio();
 
     await this.prisma.user.deleteMany({
       where: { phone: telefono },
@@ -19,7 +19,7 @@ Given(
     const direccion = "Calle Falsa 123";
     const userDomain = new User("1", nombre, apellido, telefono, direccion);
 
-    await userRepository.save(userDomain);
+    await UsuariosRepositorio.save(userDomain);
   }
 );
 
@@ -31,7 +31,7 @@ Given(
     telegramId: string,
     telefono: string
   ) {
-    const userRepository = new PrismaUserRepository();
+    const UsuariosRepositorio = new PrismaUsuariosRepositorio();
 
     await this.prisma.user.deleteMany({
       where: { telegram_id: telegramId },
@@ -46,7 +46,7 @@ Given(
       direccion
     );
 
-    await userRepository.save(userDomain);
+    await UsuariosRepositorio.save(userDomain);
   }
 );
 

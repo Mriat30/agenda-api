@@ -1,10 +1,10 @@
 import { User } from "../domain/user";
-import { UserRepository } from "../domain/user-repository";
+import { UsuariosRepositorio } from "../domain/user-repository";
 
 export class GetUserByTelegramId {
-  constructor(private readonly userRepository: UserRepository) {}
+  constructor(private readonly UsuariosRepositorio: UsuariosRepositorio) {}
 
   async getUser(telegramId: string): Promise<User | null> {
-    return this.userRepository.findByTelegramId(telegramId);
+    return this.UsuariosRepositorio.findByTelegramId(telegramId);
   }
 }

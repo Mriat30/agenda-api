@@ -8,8 +8,10 @@ export const DatabaseHelper = {
       throw new Error("Solo se puede limpiar la DB en entorno de test");
     }
 
-    await prisma.turnoUnico.deleteMany();
-    await prisma.user.deleteMany();
+    await prisma.$transaction([
+      prisma.turnoUnico.deleteMany(),
+      prisma.user.deleteMany(),
+    ]);
   },
 
   async disconnect() {

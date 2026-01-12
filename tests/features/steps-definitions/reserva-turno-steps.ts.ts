@@ -5,7 +5,7 @@ import request from "supertest";
 import { app } from "../../../src/app";
 import { ProveedorDeFechaYHoraFake } from "../../../src/proveedor_de_tiempo/infraestructura/proveedor-de-fecha-y-hora-fake";
 import { User } from "../../../src/users/domain/user";
-import { PrismaUsuariosRepositorio } from "../../../src/users/infrastructure/user-repository/prisma-user-repository";
+import { PrismaUsuariosRepositorio } from "../../../src/users/infrastructure/user-repository/prisma-usuarios-repositorio";
 import { CustomWorld } from "../support/world";
 
 Given(

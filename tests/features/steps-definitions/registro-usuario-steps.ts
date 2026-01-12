@@ -4,7 +4,7 @@ import request from "supertest";
 
 import { app } from "../../../src/app";
 import { User } from "../../../src/users/domain/user";
-import { PrismaUsuariosRepositorio } from "../../../src/users/infrastructure/user-repository/prisma-user-repository";
+import { PrismaUsuariosRepositorio } from "../../../src/users/infrastructure/user-repository/prisma-usuarios-repositorio";
 import { CustomWorld } from "../support/world";
 
 const UsuariosRepositorio = new PrismaUsuariosRepositorio();

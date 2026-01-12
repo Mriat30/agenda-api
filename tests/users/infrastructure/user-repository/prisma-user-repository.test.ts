@@ -1,5 +1,5 @@
 import { User } from "../../../../src/users/domain/user";
-import { PrismaUsuariosRepositorio } from "../../../../src/users/infrastructure/user-repository/prisma-user-repository";
+import { PrismaUsuariosRepositorio } from "../../../../src/users/infrastructure/user-repository/prisma-usuarios-repositorio";
 import { DatabaseHelper } from "../../../database-helper";
 
 describe("PrismaUsuariosRepositorio Integration", () => {

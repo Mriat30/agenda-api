@@ -57,6 +57,21 @@ export class PrismaUsuariosRepositorio
   }
 
   async obtenerTodos(): Promise<User[]> {
+    const prismaUsers = await prisma.user.findMany();
+
+    if (prismaUsers.length > 0) {
+      return prismaUsers.map(
+        (prismaUser) =>
+          new User(
+            prismaUser.telegram_id,
+            prismaUser.name,
+            prismaUser.last_name,
+            prismaUser.phone,
+            prismaUser.address,
+            prismaUser.id
+          )
+      );
+    }
     return [];
   }
 

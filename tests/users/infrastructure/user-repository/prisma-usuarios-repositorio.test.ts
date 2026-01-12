@@ -60,5 +60,34 @@ describe("PrismaUsuariosRepositorio Integration", () => {
       const users = await repository.obtenerTodos();
       expect(users).toEqual([]);
     });
+
+    it("si existen dos usuarios, deberia devolver un arreglo con dos usuarios", async () => {
+      const user1 = new User(
+        "3",
+        "Ana",
+        "Gomez",
+        "111222",
+        "Av. Siempre Viva 742"
+      );
+      const user2 = new User(
+        "4",
+        "Luis",
+        "Martinez",
+        "333444",
+        "Calle Luna 456"
+      );
+
+      await repository.guardar(user1);
+      await repository.guardar(user2);
+
+      const users = await repository.obtenerTodos();
+      expect(users.length).toBe(2);
+      expect(users).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({ telegramId: "3", name: "Ana" }),
+          expect.objectContaining({ telegramId: "4", name: "Luis" }),
+        ])
+      );
+    });
   });
 });

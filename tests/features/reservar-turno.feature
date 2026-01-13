@@ -25,7 +25,6 @@ Característica: Registrar turno para un usuario registrado
       Cuando intento reservar el turno del "05-10-2025" a las "09:00"
       Entonces la reserva del turno falla con Fecha inválida
 
-    @wip
     Escenario: RT4: Un usuario no registrado no puede reservar un turno
       Dado que no estoy registrado
       Cuando intento reservar el turno del "15-10-2025" a las "13:00"

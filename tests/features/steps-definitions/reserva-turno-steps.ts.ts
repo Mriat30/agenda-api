@@ -120,3 +120,18 @@ Then(
     );
   }
 );
+
+Given("que no estoy registrado", async function (this: CustomWorld) {
+  await this.usuariosRepositorio.borrarTodos();
+  this.usuarioActualTelegramId = "usuario_no_existente";
+});
+
+Then(
+  "la reserva del turno falla con Usuario no registrado",
+  function (this: CustomWorld) {
+    expect(this.lastResponse?.status).to.equal(404);
+    expect(this.lastResponse?.body.error).to.equal(
+      "El usuario no está registrado en el sistema."
+    );
+  }
+);

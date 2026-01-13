@@ -4,6 +4,7 @@ import {
   AgendarTurnoUnico,
   FechaInvalidaError,
   HorarioNoDisponibleError,
+  UsuarioNoRegistradoError,
 } from "../../aplicacion/agendar-turno-unico";
 
 export class TurnosControlador {
@@ -25,6 +26,8 @@ export class TurnosControlador {
         res.status(409).send({ error: error.message });
       } else if (error instanceof FechaInvalidaError) {
         res.status(400).send({ error: error.message });
+      } else if (error instanceof UsuarioNoRegistradoError) {
+        res.status(404).send({ error: error.message });
       } else {
         res.status(500).send({ error: "Error interno del servidor" });
       }

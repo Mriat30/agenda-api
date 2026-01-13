@@ -6,6 +6,7 @@ import { app } from "../../../src/app";
 import { ProveedorDeFechaYHoraFake } from "../../../src/proveedor_de_tiempo/infraestructura/proveedor-de-fecha-y-hora-fake";
 import { Slot } from "../../../src/turnos/dominio/slot";
 import { TurnoUnico } from "../../../src/turnos/dominio/turno-unico";
+import { dependencias } from "../../../src/turnos/infraestructura/dependencias";
 import { User } from "../../../src/users/domain/user";
 import { PrismaUsuariosRepositorio } from "../../../src/users/infrastructure/user-repository/prisma-usuarios-repositorio";
 import { CustomWorld } from "../support/world";
@@ -13,8 +14,11 @@ import { CustomWorld } from "../support/world";
 Given(
   "que ahora es {string} a las {string}",
   async function (this: CustomWorld, fecha: string, hora: string) {
-    const fechaInicial = new Date(`${fecha}T${hora}:00Z`);
-    this.proveedorDeFechaYHora = new ProveedorDeFechaYHoraFake(fechaInicial);
+    const [dia, mes, anio] = fecha.split("-");
+    const fechaISO = `${anio}-${mes}-${dia}T${hora}:00Z`;
+    const fakeTime = new ProveedorDeFechaYHoraFake(new Date(fechaISO));
+    dependencias.proveedorTiempo = fakeTime;
+    this.proveedorDeFechaYHora = fakeTime;
   }
 );
 

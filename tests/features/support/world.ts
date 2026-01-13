@@ -1,7 +1,9 @@
 import { IWorldOptions, setWorldConstructor, World } from "@cucumber/cucumber";
 import type { Response } from "supertest";
 
+import { app } from "../../../src/app";
 import { ProveedorDeFechaYHoraFake } from "../../../src/proveedor_de_tiempo/infraestructura/proveedor-de-fecha-y-hora-fake";
+import { dependencias } from "../../../src/turnos/infraestructura/dependencias";
 import { PrismaTurnosRepositorio } from "../../../src/turnos/infraestructura/repositorio/prisma-turnos-repositorio";
 import { User } from "../../../src/users/domain/user";
 import { PrismaUsuariosRepositorio } from "../../../src/users/infrastructure/user-repository/prisma-usuarios-repositorio";
@@ -14,9 +16,15 @@ export class CustomWorld extends World {
   public usuariosRepositorio = new PrismaUsuariosRepositorio();
   public turnosRepositorio = new PrismaTurnosRepositorio();
   public usuarioActualTelegramId?: string;
+  public app = app;
 
   constructor(options: IWorldOptions) {
     super(options);
+  }
+
+  setFechaActual(fecha: Date) {
+    this.proveedorDeFechaYHora = new ProveedorDeFechaYHoraFake(fecha);
+    dependencias.proveedorTiempo = this.proveedorDeFechaYHora;
   }
 
   async cleanDatabase() {

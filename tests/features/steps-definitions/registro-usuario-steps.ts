@@ -4,24 +4,19 @@ import request from "supertest";
 
 import { app } from "../../../src/app";
 import { User } from "../../../src/users/domain/user";
-import { PrismaUsuariosRepositorio } from "../../../src/users/infrastructure/user-repository/prisma-usuarios-repositorio";
 import { CustomWorld } from "../support/world";
-
-const UsuariosRepositorio = new PrismaUsuariosRepositorio();
 
 Given(
   "que no existe un usuario registrado con el telefono {string}",
-  async function (this: CustomWorld, telefono: string) {
-    await this.prisma.user.deleteMany({
-      where: { phone: telefono },
-    });
+  async function (this: CustomWorld, _telefono: string) {
+    await this.usuariosRepositorio.borrarTodos();
   }
 );
 
 Given(
   "que existe un usuario registrado con el telefono {string}",
   async function (this: CustomWorld, telefono: string) {
-    await UsuariosRepositorio.guardar(
+    await this.usuariosRepositorio.guardar(
       new User("999", "Existente", "Usuario", telefono, "Calle 123")
     );
   }

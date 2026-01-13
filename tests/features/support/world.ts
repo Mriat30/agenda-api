@@ -3,12 +3,14 @@ import type { Response } from "supertest";
 
 import { prisma } from "../../../src/infraestructure/db/prisma";
 import { ProveedorDeFechaYHoraFake } from "../../../src/proveedor_de_tiempo/infraestructura/proveedor-de-fecha-y-hora-fake";
+import { PrismaUsuariosRepositorio } from "../../../src/users/infrastructure/user-repository/prisma-usuarios-repositorio";
 
 export class CustomWorld extends World {
   public prisma = prisma;
   public lastResponse?: Response;
   public testData: Record<string, any> = {};
   public proveedorDeFechaYHora!: ProveedorDeFechaYHoraFake;
+  public usuariosRepositorio = new PrismaUsuariosRepositorio();
 
   constructor(options: IWorldOptions) {
     super(options);

@@ -1,0 +1,24 @@
+@startuml
+
+
+class AgendaRepositorio {
+}
+
+
+class Agenda{
+-id: String
+-nombre: String
+-cantidadTurnosOfrecidosEnMinutos: Int
++Agenda(nombre: String, horaApertura: Date, horaCierre: Date)
+}
+
+class HorarioDeAtencionPorDia{
+-id: String
+-dia: String
+-intervaloDeAtencion: Slot
++HorarioDeAtencionPorDia(horaApertura: Date, horaCierre: Date)
+}
+
+Agenda "1 "*-- "N" HorarioDeAtencionPorDia
+
+@enduml

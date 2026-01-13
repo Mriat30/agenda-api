@@ -4,22 +4,19 @@ import request from "supertest";
 
 import { app } from "../../../src/app";
 import { User } from "../../../src/users/domain/user";
-import { PrismaUsuariosRepositorio } from "../../../src/users/infrastructure/user-repository/prisma-usuarios-repositorio";
 import { CustomWorld } from "../support/world";
 
 Given(
   "que existe un usuario registrado de nombre {string} y telefono {string}",
   async function (this: CustomWorld, nombre: string, telefono: string) {
-    const UsuariosRepositorio = new PrismaUsuariosRepositorio();
-
-    await this.prisma.user.deleteMany({
-      where: { phone: telefono },
-    });
-    const apellido = "Perez";
-    const direccion = "Calle Falsa 123";
-    const userDomain = new User("1", nombre, apellido, telefono, direccion);
-
-    await UsuariosRepositorio.guardar(userDomain);
+    const userDomain = new User(
+      "1",
+      nombre,
+      "Perez",
+      telefono,
+      "Calle Falsa 123"
+    );
+    await this.usuariosRepositorio.guardar(userDomain);
   }
 );
 
@@ -31,31 +28,21 @@ Given(
     telegramId: string,
     telefono: string
   ) {
-    const UsuariosRepositorio = new PrismaUsuariosRepositorio();
-
-    await this.prisma.user.deleteMany({
-      where: { telegram_id: telegramId },
-    });
-    const apellido = "Perez";
-    const direccion = "Calle Falsa 123";
     const userDomain = new User(
       telegramId,
       nombre,
-      apellido,
+      "Perez",
       telefono,
-      direccion
+      "Calle Falsa 123"
     );
-
-    await UsuariosRepositorio.guardar(userDomain);
+    await this.usuariosRepositorio.guardar(userDomain);
   }
 );
 
 Given(
   "que no existe un usuario registrado con telefono {string}",
-  async function (this: CustomWorld, telefono: string) {
-    await this.prisma.user.deleteMany({
-      where: { phone: telefono },
-    });
+  async function (this: CustomWorld, _telefono: string) {
+    // La DB se limpia en el Before, por lo que no es necesario borrar manualmente.
   }
 );
 

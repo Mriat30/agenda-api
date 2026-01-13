@@ -86,9 +86,8 @@ Then(
 Then(
   "el usuario con telefono {string} debe existir en el sistema",
   async function (this: CustomWorld, telefono: string) {
-    const usuarioEncontrado = await this.prisma.user.findUnique({
-      where: { phone: telefono },
-    });
+    const usuarioEncontrado =
+      await this.usuariosRepositorio.obtenerPorNumeroDeTelefono(telefono);
     expect(usuarioEncontrado).to.not.be.null;
     expect(usuarioEncontrado?.phone).to.equal(telefono);
   }

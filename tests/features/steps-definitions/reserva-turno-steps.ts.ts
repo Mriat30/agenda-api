@@ -17,7 +17,7 @@ Given(
 );
 
 Given("que estoy registrado", async function (this: CustomWorld) {
-  const UsuariosRepositorio = new PrismaUsuariosRepositorio();
+  const usuariosRepositorio = new PrismaUsuariosRepositorio();
   const user = new User(
     "55555",
     "Juan",
@@ -26,8 +26,8 @@ Given("que estoy registrado", async function (this: CustomWorld) {
     "Calle Falsa 123"
   );
 
-  await this.prisma.user.deleteMany({ where: { telegram_id: "55555" } });
-  await UsuariosRepositorio.guardar(user);
+  await usuariosRepositorio.borrarTodos();
+  await usuariosRepositorio.guardar(user);
 });
 
 Given(

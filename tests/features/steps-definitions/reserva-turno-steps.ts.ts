@@ -4,6 +4,8 @@ import request from "supertest";
 
 import { app } from "../../../src/app";
 import { ProveedorDeFechaYHoraFake } from "../../../src/proveedor_de_tiempo/infraestructura/proveedor-de-fecha-y-hora-fake";
+import { Slot } from "../../../src/turnos/dominio/slot";
+import { TurnoUnico } from "../../../src/turnos/dominio/turno-unico";
 import { User } from "../../../src/users/domain/user";
 import { PrismaUsuariosRepositorio } from "../../../src/users/infrastructure/user-repository/prisma-usuarios-repositorio";
 import { CustomWorld } from "../support/world";
@@ -67,3 +69,32 @@ When(
 Then("el turno se reserva exitosamente", function (this: CustomWorld) {
   expect(this.lastResponse?.status).to.equal(201);
 });
+
+Given(
+  "que el turno del {string} a las {string} está ocupado",
+  async function (this: CustomWorld, fechaStr: string, hora: string) {
+    const [dia, mes, anio] = fechaStr.split("-");
+    const fechaISO = `${anio}-${mes}-${dia}`;
+
+    const inicio = new Date(`${fechaISO}T${hora}:00Z`);
+    const fin = new Date(inicio);
+    fin.setHours(fin.getHours() + 1);
+
+    const turnoUnico = new TurnoUnico(
+      "99999",
+      "Masaje de prueba (Ocupante)",
+      new Slot(inicio, fin),
+      new Date(`${fechaISO}T00:00:00Z`),
+      "pendiente"
+    );
+    await this.turnosRepositorio.guardar(turnoUnico);
+  }
+);
+
+Then(
+  "la reserva del turno falla con Turno no disponible",
+  function (this: CustomWorld) {
+    expect(this.lastResponse?.status).to.equal(409);
+    expect(this.lastResponse?.body.message).to.equal("Turno no disponible");
+  }
+);

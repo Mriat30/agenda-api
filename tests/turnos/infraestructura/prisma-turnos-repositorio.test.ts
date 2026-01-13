@@ -120,4 +120,17 @@ describe("PrismaTurnosRepositorio Integration", () => {
       expect(turnos.length).toBe(0);
     });
   });
+
+  describe("obtenerPorFechaYSlot", () => {
+    it("deberia devolver null si no encuentra coincidencia", async () => {
+      const resultado = await repositorio.obtenerPorFechaYSlot(
+        new Date("2024-08-01T00:00:00Z"),
+        new Slot(
+          new Date("2024-08-01T14:00:00Z"),
+          new Date("2024-08-01T15:00:00Z")
+        )
+      );
+      expect(resultado).toBeNull();
+    });
+  });
 });

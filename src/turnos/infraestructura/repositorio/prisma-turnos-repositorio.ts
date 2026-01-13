@@ -52,4 +52,11 @@ export class PrismaTurnosRepositorio
   async borrarTodos(): Promise<void> {
     await prisma.turnoUnico.deleteMany();
   }
+
+  async obtenerPorFechaYSlot(
+    _fecha: Date,
+    _slot: Slot
+  ): Promise<TurnoUnico | null> {
+    return null;
+  }
 }

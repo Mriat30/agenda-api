@@ -76,15 +76,6 @@ export class PrismaUsuariosRepositorio
   }
 
   async borrarTodos(): Promise<void> {
-    const deletePromises = [];
-    const users = await prisma.user.findMany();
-
-    for (const user of users) {
-      deletePromises.push(
-        prisma.user.delete({ where: { telegram_id: user.telegram_id } })
-      );
-    }
-
-    await Promise.all(deletePromises);
+    await prisma.user.deleteMany();
   }
 }

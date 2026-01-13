@@ -1,5 +1,6 @@
 import { prisma } from "../../../infraestructure/db/prisma";
 import { RepositorioBase } from "../../../shared/domain/repositorio_base";
+import { Slot } from "../../dominio/slot";
 import { TurnoUnico } from "../../dominio/turno-unico";
 import { TurnosRepositorio } from "../../dominio/turnos_repositorio";
 
@@ -30,6 +31,21 @@ export class PrismaTurnosRepositorio
   }
 
   async obtenerTodos(): Promise<TurnoUnico[]> {
+    const prismaTurnos = await prisma.turnoUnico.findMany();
+
+    if (prismaTurnos.length > 0) {
+      return prismaTurnos.map(
+        (prismaTurno) =>
+          new TurnoUnico(
+            prismaTurno.telegramId,
+            prismaTurno.masaje,
+            new Slot(prismaTurno.horaInicio, prismaTurno.horaFin),
+            prismaTurno.fecha,
+            prismaTurno.estado,
+            prismaTurno.id
+          )
+      );
+    }
     return [];
   }
 

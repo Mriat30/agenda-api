@@ -62,5 +62,37 @@ describe("PrismaTurnosRepositorio Integration", () => {
       const turnos = await repositorio.obtenerTodos();
       expect(turnos).toEqual([]);
     });
+
+    it("deberia devolver todos los turnos unicos guardados", async () => {
+      const fechaTurno1 = new Date("2024-08-01T00:00:00Z");
+      const horaInicio1 = new Date("2024-08-01T14:00:00Z");
+      const horaFin1 = new Date("2024-08-01T15:00:00Z");
+      const turnoUnico1 = new TurnoUnico(
+        TELEGRAM_ID,
+        "Masaje relajante",
+        new Slot(horaInicio1, horaFin1),
+        fechaTurno1,
+        "confirmado"
+      );
+      const fechaTurno2 = new Date("2024-08-02T00:00:00Z");
+      const horaInicio2 = new Date("2024-08-02T16:00:00Z");
+      const horaFin2 = new Date("2024-08-02T17:00:00Z");
+      const turnoUnico2 = new TurnoUnico(
+        TELEGRAM_ID,
+        "Masaje deportivo",
+        new Slot(horaInicio2, horaFin2),
+        fechaTurno2,
+        "pendiente"
+      );
+      await repositorio.guardar(turnoUnico1);
+      await repositorio.guardar(turnoUnico2);
+
+      const turnos = await repositorio.obtenerTodos();
+
+      expect(turnos.length).toBe(2);
+      const masajes = turnos.map((t) => t.masaje);
+      expect(masajes).toContain("Masaje relajante");
+      expect(masajes).toContain("Masaje deportivo");
+    });
   });
 });

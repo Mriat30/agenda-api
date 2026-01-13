@@ -13,6 +13,7 @@ export class CustomWorld extends World {
   public proveedorDeFechaYHora!: ProveedorDeFechaYHoraFake;
   public usuariosRepositorio = new PrismaUsuariosRepositorio();
   public turnosRepositorio = new PrismaTurnosRepositorio();
+  public usuarioActualTelegramId?: string;
 
   constructor(options: IWorldOptions) {
     super(options);

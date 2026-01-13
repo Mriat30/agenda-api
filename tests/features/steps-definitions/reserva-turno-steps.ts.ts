@@ -20,8 +20,9 @@ Given(
 
 Given("que estoy registrado", async function (this: CustomWorld) {
   const usuariosRepositorio = new PrismaUsuariosRepositorio();
+  const telegramId = "55555";
   const user = new User(
-    "55555",
+    telegramId,
     "Juan",
     "Perez",
     "123456789",
@@ -30,6 +31,7 @@ Given("que estoy registrado", async function (this: CustomWorld) {
 
   await usuariosRepositorio.borrarTodos();
   await usuariosRepositorio.guardar(user);
+  this.usuarioActualTelegramId = telegramId;
 });
 
 Given(
@@ -57,7 +59,7 @@ When(
     this.lastResponse = await request(app)
       .post("/turnos")
       .send({
-        telegramId: "55555",
+        telegramId: this.usuarioActualTelegramId,
         masaje: "Masaje Descontracturante",
         horaInicio: inicio,
         horaFin: finDate.toISOString(),
@@ -75,13 +77,17 @@ Given(
   async function (this: CustomWorld, fechaStr: string, hora: string) {
     const [dia, mes, anio] = fechaStr.split("-");
     const fechaISO = `${anio}-${mes}-${dia}`;
-
     const inicio = new Date(`${fechaISO}T${hora}:00Z`);
     const fin = new Date(inicio);
     fin.setHours(fin.getHours() + 1);
 
+    const ocupanteId = "99999";
+    await this.usuariosRepositorio.guardar(
+      new User(ocupanteId, "Otro", "Usuario", "0000", "Calle 2")
+    );
+
     const turnoUnico = new TurnoUnico(
-      "99999",
+      ocupanteId,
       "Masaje de prueba (Ocupante)",
       new Slot(inicio, fin),
       new Date(`${fechaISO}T00:00:00Z`),
@@ -95,6 +101,8 @@ Then(
   "la reserva del turno falla con Turno no disponible",
   function (this: CustomWorld) {
     expect(this.lastResponse?.status).to.equal(409);
-    expect(this.lastResponse?.body.message).to.equal("Turno no disponible");
+    expect(this.lastResponse?.body.error).to.equal(
+      "El horario seleccionado no está disponible."
+    );
   }
 );

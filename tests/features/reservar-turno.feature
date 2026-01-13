@@ -14,7 +14,6 @@ Característica: Registrar turno para un usuario registrado
       Cuando intento reservar el turno del "15-10-2025" a las "11:00"
       Entonces el turno se reserva exitosamente
 
-    @wip
     Escenario: RT2: Un usuario registrado, con turno ocupado, no puede reservar un turno
       Dado que estoy registrado
       Y que el turno del "15-10-2025" a las "12:00" está ocupado

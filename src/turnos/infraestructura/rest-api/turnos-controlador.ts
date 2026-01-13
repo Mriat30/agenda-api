@@ -1,19 +1,30 @@
 import { Request, Response } from "express";
 
-import { AgendarTurnoUnico } from "../../aplicacion/agendar-turno-unico";
+import {
+  AgendarTurnoUnico,
+  HorarioNoDisponibleError,
+} from "../../aplicacion/agendar-turno-unico";
 
 export class TurnosControlador {
   constructor(private readonly agendarTurnoUnico: AgendarTurnoUnico) {}
 
   async post(req: Request, res: Response) {
     const { telegramId, masaje, horaInicio, horaFin, fecha } = req.body;
-    await this.agendarTurnoUnico.agendar(
-      telegramId,
-      masaje,
-      new Date(horaInicio),
-      new Date(horaFin),
-      new Date(fecha)
-    );
-    res.status(201).send();
+    try {
+      await this.agendarTurnoUnico.agendar(
+        telegramId,
+        masaje,
+        new Date(horaInicio),
+        new Date(horaFin),
+        new Date(fecha)
+      );
+      res.status(201).send();
+    } catch (error) {
+      if (error instanceof HorarioNoDisponibleError) {
+        res.status(409).send({ error: error.message });
+      } else {
+        res.status(500).send({ error: "Error interno del servidor" });
+      }
+    }
   }
 }

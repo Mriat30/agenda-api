@@ -1,8 +1,11 @@
 import { prisma } from "../../../infraestructure/db/prisma";
+import { RepositorioBase } from "../../../shared/domain/repositorio_base";
 import { TurnoUnico } from "../../dominio/turno-unico";
 import { TurnosRepositorio } from "../../dominio/turnos_repositorio";
 
-export class PrismaTurnosRepositorio implements TurnosRepositorio {
+export class PrismaTurnosRepositorio
+  implements TurnosRepositorio, RepositorioBase<TurnoUnico>
+{
   async guardar(turno: TurnoUnico): Promise<void> {
     await prisma.turnoUnico.upsert({
       where: { id: turno.id ?? "" },
@@ -24,5 +27,13 @@ export class PrismaTurnosRepositorio implements TurnosRepositorio {
         estado: turno.estado,
       },
     });
+  }
+
+  async obtenerTodos(): Promise<TurnoUnico[]> {
+    return [];
+  }
+
+  async borrarTodos(): Promise<void> {
+    // falta implementar
   }
 }

@@ -56,4 +56,11 @@ describe("PrismaTurnosRepositorio Integration", () => {
       );
     });
   });
+
+  describe("obtenerTodos", () => {
+    it("si no hay turnos unicos, devolver todos devuelve un arreglo vacío", async () => {
+      const turnos = await repositorio.obtenerTodos();
+      expect(turnos).toEqual([]);
+    });
+  });
 });

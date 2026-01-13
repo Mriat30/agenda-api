@@ -132,5 +132,28 @@ describe("PrismaTurnosRepositorio Integration", () => {
       );
       expect(resultado).toBeNull();
     });
+
+    it("deberia devolver el turno unico si encuentra coincidencia", async () => {
+      const fechaTurno = new Date("2024-08-01T00:00:00Z");
+      const horaInicio = new Date("2024-08-01T14:00:00Z");
+      const horaFin = new Date("2024-08-01T15:00:00Z");
+
+      const turnoUnico = new TurnoUnico(
+        TELEGRAM_ID,
+        "Masaje relajante",
+        new Slot(horaInicio, horaFin),
+        fechaTurno,
+        "confirmado"
+      );
+
+      await repositorio.guardar(turnoUnico);
+
+      const resultado = await repositorio.obtenerPorFechaYSlot(
+        fechaTurno,
+        new Slot(horaInicio, horaFin)
+      );
+
+      expect(resultado?.masaje).toBe("Masaje relajante");
+    });
   });
 });

@@ -54,9 +54,27 @@ export class PrismaTurnosRepositorio
   }
 
   async obtenerPorFechaYSlot(
-    _fecha: Date,
-    _slot: Slot
+    fecha: Date,
+    slot: Slot
   ): Promise<TurnoUnico | null> {
+    const prismaTurno = await prisma.turnoUnico.findFirst({
+      where: {
+        fecha: fecha,
+        horaInicio: slot.horaInicio,
+        horaFin: slot.horaFin,
+      },
+    });
+
+    if (prismaTurno) {
+      return new TurnoUnico(
+        prismaTurno.telegramId,
+        prismaTurno.masaje,
+        new Slot(prismaTurno.horaInicio, prismaTurno.horaFin),
+        prismaTurno.fecha,
+        prismaTurno.estado,
+        prismaTurno.id
+      );
+    }
     return null;
   }
 }

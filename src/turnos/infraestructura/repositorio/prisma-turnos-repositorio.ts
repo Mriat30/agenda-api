@@ -50,6 +50,6 @@ export class PrismaTurnosRepositorio
   }
 
   async borrarTodos(): Promise<void> {
-    // falta implementar
+    await prisma.turnoUnico.deleteMany();
   }
 }

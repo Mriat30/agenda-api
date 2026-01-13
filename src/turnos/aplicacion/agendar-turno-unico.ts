@@ -1,10 +1,12 @@
 import { ProveedorDeFechaYHora } from "../../proveedor_de_tiempo/dominio/proveedor-de-fecha-y-hora";
+import { UsuariosRepositorio } from "../../users/domain/user-repository";
 import { Slot } from "../dominio/slot";
 import { TurnoUnico } from "../dominio/turno-unico";
 import { TurnosRepositorio } from "../dominio/turnos_repositorio";
 
 export class AgendarTurnoUnico {
   constructor(
+    private readonly usuariosRepositorio: UsuariosRepositorio,
     private readonly turnosRepositorio: TurnosRepositorio,
     private readonly proveedorDeFechaYHora: ProveedorDeFechaYHora
   ) {}
@@ -24,9 +26,21 @@ export class AgendarTurnoUnico {
       fecha,
       "pendiente"
     );
+    await this.validarUsuario(telegramId);
     this.validarFecha(fecha);
     await this.validarDisponibilidadHorario(fecha, slot);
     await this.turnosRepositorio.guardar(nuevoTurno);
+  }
+
+  private async validarUsuario(telegramId: string): Promise<void> {
+    const usuario = await this.usuariosRepositorio.obtenerPorTelegramId(
+      telegramId
+    );
+    if (!usuario) {
+      throw new UsuarioNoRegistradoError(
+        "El usuario no está registrado en el sistema."
+      );
+    }
   }
 
   private async validarDisponibilidadHorario(
@@ -63,5 +77,12 @@ export class FechaInvalidaError extends Error {
   constructor(message: string) {
     super(message);
     this.name = "FechaInvalidaError";
+  }
+}
+
+export class UsuarioNoRegistradoError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = "UsuarioNoRegistradoError";
   }
 }

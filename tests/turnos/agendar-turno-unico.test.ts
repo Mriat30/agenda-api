@@ -3,19 +3,33 @@ import {
   AgendarTurnoUnico,
   FechaInvalidaError,
   HorarioNoDisponibleError,
+  UsuarioNoRegistradoError,
 } from "../../src/turnos/aplicacion/agendar-turno-unico";
 import { Slot } from "../../src/turnos/dominio/slot";
 import { TurnoUnico } from "../../src/turnos/dominio/turno-unico";
 import { TurnosRepositorio } from "../../src/turnos/dominio/turnos_repositorio";
+import { User } from "../../src/users/domain/user";
+import { UsuariosRepositorio } from "../../src/users/domain/user-repository";
 
 describe("AgendarTurnoUnico", () => {
   let repositorioTurnos: TurnosRepositorio;
+  let repositorioUsuarios: UsuariosRepositorio;
 
   beforeEach(() => {
     repositorioTurnos = {
       guardar: jest.fn(),
       obtenerPorFechaYSlot: jest.fn().mockResolvedValue(null),
     } as unknown as jest.Mocked<TurnosRepositorio>;
+
+    repositorioUsuarios = {
+      obtenerPorTelegramId: jest
+        .fn()
+        .mockResolvedValue(
+          new User("123456789", "Juan", "Perez", "123456789", "Calle Falsa 123")
+        ),
+      guardar: jest.fn(),
+      borrarTodos: jest.fn(),
+    } as unknown as jest.Mocked<UsuariosRepositorio>;
   });
 
   it("deberia agendar un turno unico y guardarlo en el repositorio, exitosamente", async () => {
@@ -23,6 +37,7 @@ describe("AgendarTurnoUnico", () => {
       new Date("2024-06-30T12:00:00Z")
     );
     const agendarTurnoUnico = new AgendarTurnoUnico(
+      repositorioUsuarios,
       repositorioTurnos,
       proveedorFechaYHora
     );
@@ -53,6 +68,7 @@ describe("AgendarTurnoUnico", () => {
       new Date("2024-06-30T12:00:00Z")
     );
     const agendarTurnoUnico = new AgendarTurnoUnico(
+      repositorioUsuarios,
       repositorioTurnos,
       proveedorFechaYHora
     );
@@ -89,6 +105,7 @@ describe("AgendarTurnoUnico", () => {
       new Date("2024-06-30T12:00:00Z")
     );
     const agendarTurnoUnico = new AgendarTurnoUnico(
+      repositorioUsuarios,
       repositorioTurnos,
       proveedorFechaYHora
     );
@@ -106,5 +123,34 @@ describe("AgendarTurnoUnico", () => {
         fechaPasada
       )
     ).rejects.toThrow(FechaInvalidaError);
+  });
+
+  it("si el usuario no esta registrado, deberia lanzarse un error", async () => {
+    const proveedorDeFechaYHora = new ProveedorDeFechaYHoraFake(
+      new Date("2024-06-30T12:00:00Z")
+    );
+    const agendarTurnoUnico = new AgendarTurnoUnico(
+      repositorioUsuarios,
+      repositorioTurnos,
+      proveedorDeFechaYHora
+    );
+
+    const fechaTest = new Date("2024-07-01T00:00:00.000Z");
+    const inicioTest = new Date("2024-07-01T10:00:00.000Z");
+    const finTest = new Date("2024-07-01T11:00:00.000Z");
+
+    (
+      repositorioUsuarios.obtenerPorTelegramId as jest.Mock
+    ).mockResolvedValueOnce(null);
+
+    await expect(
+      agendarTurnoUnico.agendar(
+        "usuario_no_registrado",
+        "Masaje relajante",
+        inicioTest,
+        finTest,
+        fechaTest
+      )
+    ).rejects.toThrow(UsuarioNoRegistradoError);
   });
 });

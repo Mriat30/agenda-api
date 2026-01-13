@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 
 import {
   AgendarTurnoUnico,
+  FechaInvalidaError,
   HorarioNoDisponibleError,
 } from "../../aplicacion/agendar-turno-unico";
 
@@ -22,6 +23,8 @@ export class TurnosControlador {
     } catch (error) {
       if (error instanceof HorarioNoDisponibleError) {
         res.status(409).send({ error: error.message });
+      } else if (error instanceof FechaInvalidaError) {
+        res.status(400).send({ error: error.message });
       } else {
         res.status(500).send({ error: "Error interno del servidor" });
       }

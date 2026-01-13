@@ -110,3 +110,13 @@ Then(
     );
   }
 );
+
+Then(
+  "la reserva del turno falla con Fecha inválida",
+  function (this: CustomWorld) {
+    expect(this.lastResponse?.status).to.equal(400);
+    expect(this.lastResponse?.body.error).to.equal(
+      "La fecha del turno no puede ser pasada."
+    );
+  }
+);

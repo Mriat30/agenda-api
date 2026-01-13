@@ -24,22 +24,24 @@ export class AgendarTurnoUnico {
       fecha,
       "pendiente"
     );
-    const disponible = await this.esHorarioDisponible(fecha, slot);
-    if (!disponible) {
-      throw new HorarioNoDisponibleError(
-        "El horario seleccionado no está disponible."
-      );
-    }
     this.validarFecha(fecha);
+    await this.validarDisponibilidadHorario(fecha, slot);
     await this.turnosRepositorio.guardar(nuevoTurno);
   }
 
-  private async esHorarioDisponible(fecha: Date, slot: Slot): Promise<boolean> {
+  private async validarDisponibilidadHorario(
+    fecha: Date,
+    slot: Slot
+  ): Promise<void> {
     const turnoExistente = await this.turnosRepositorio.obtenerPorFechaYSlot(
       fecha,
       slot
     );
-    return turnoExistente === null;
+    if (turnoExistente) {
+      throw new HorarioNoDisponibleError(
+        "El horario seleccionado no está disponible."
+      );
+    }
   }
 
   private validarFecha(fecha: Date): void {

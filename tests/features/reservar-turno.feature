@@ -8,7 +8,6 @@ Característica: Registrar turno para un usuario registrado
     Dado que ahora es "10-10-2025" a las "10:00"
 
   Regla: Estar registrado y el turno esta disponible
-    @wip
     Escenario: RT1: Un usuario registrado, con turno disponible, reserva un turno exitosamente
       Dado que estoy registrado
       Y que el turno del "15-10-2025" a las "11:00" está disponible

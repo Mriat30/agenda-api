@@ -33,15 +33,23 @@ Given("que estoy registrado", async function (this: CustomWorld) {
 Given(
   "que el turno del {string} a las {string} está disponible",
   async function (this: CustomWorld, _fecha: string, _hora: string) {
-    // Pendiente de implementación hasta tener el modelo Appointment en Prisma
+    this.turnosRepositorio.borrarTodos();
   }
 );
 
 When(
   "intento reservar el turno del {string} a las {string}",
-  async function (this: CustomWorld, fecha: string, hora: string) {
-    const inicio = `${fecha}T${hora}:00Z`;
+  async function (this: CustomWorld, fechaStr: string, hora: string) {
+    const [dia, mes, anio] = fechaStr.split("-");
+    const fechaISO = `${anio}-${mes}-${dia}`;
+
+    const inicio = `${fechaISO}T${hora}:00Z`;
     const finDate = new Date(inicio);
+
+    if (isNaN(finDate.getTime())) {
+      throw new RangeError(`Fecha inválida generada: ${inicio}`);
+    }
+
     finDate.setHours(finDate.getHours() + 1);
 
     this.lastResponse = await request(app)
@@ -51,7 +59,7 @@ When(
         masaje: "Masaje Descontracturante",
         horaInicio: inicio,
         horaFin: finDate.toISOString(),
-        fecha: `${fecha}T00:00:00Z`,
+        fecha: `${fechaISO}T00:00:00Z`,
       });
   }
 );

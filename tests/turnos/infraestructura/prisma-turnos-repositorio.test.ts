@@ -10,7 +10,7 @@ describe("PrismaTurnosRepositorio Integration", () => {
   const TELEGRAM_ID = "123456789";
 
   beforeEach(async () => {
-    repositorio = new PrismaTurnosRepositorio();
+    repositorio = new PrismaTurnosRepositorio(prisma);
     await DatabaseHelper.cleanDatabase();
 
     await prisma.user.create({

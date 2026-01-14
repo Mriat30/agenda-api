@@ -4,6 +4,7 @@ import { Agenda } from "../../../src/agenda/dominio/agenda";
 import { HorarioDeAtencionPorDia } from "../../../src/agenda/dominio/horario-de-atencion-por-dia";
 import { PrismaAgendaRepositorio } from "../../../src/agenda/infraestructura/prisma-agendas-repositorio";
 import { Slot } from "../../../src/turnos/dominio/slot";
+import { DatabaseHelper } from "../../database-helper";
 
 describe("PrismaAgendaRepository Integration Test", () => {
   let prisma: PrismaClient;
@@ -14,10 +15,8 @@ describe("PrismaAgendaRepository Integration Test", () => {
     await prisma.$connect();
   });
 
-  afterAll(async () => {
-    await prisma.horarioDeAtencionPorDia.deleteMany();
-    await prisma.agenda.deleteMany();
-    await prisma.$disconnect();
+  beforeEach(async () => {
+    await DatabaseHelper.cleanDatabase();
   });
 
   it("debería persistir una agenda con sus horarios en la base de datos", async () => {

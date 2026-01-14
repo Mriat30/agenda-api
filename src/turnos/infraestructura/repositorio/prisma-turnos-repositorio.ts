@@ -1,4 +1,5 @@
-import { prisma } from "../../../infraestructure/db/prisma";
+import { PrismaClient } from "@prisma/client";
+
 import { RepositorioBase } from "../../../shared/domain/repositorio_base";
 import { Slot } from "../../dominio/slot";
 import { TurnoUnico } from "../../dominio/turno-unico";
@@ -7,8 +8,10 @@ import { TurnosRepositorio } from "../../dominio/turnos_repositorio";
 export class PrismaTurnosRepositorio
   implements TurnosRepositorio, RepositorioBase<TurnoUnico>
 {
+  constructor(private prisma: PrismaClient) {}
+
   async guardar(turno: TurnoUnico): Promise<void> {
-    await prisma.turnoUnico.upsert({
+    await this.prisma.turnoUnico.upsert({
       where: { id: turno.id ?? "" },
       update: {
         masaje: turno.masaje,
@@ -37,7 +40,7 @@ export class PrismaTurnosRepositorio
   }
 
   async obtenerTodos(): Promise<TurnoUnico[]> {
-    const prismaTurnos = await prisma.turnoUnico.findMany();
+    const prismaTurnos = await this.prisma.turnoUnico.findMany();
 
     return prismaTurnos.map(
       (prismaTurno) =>
@@ -53,14 +56,14 @@ export class PrismaTurnosRepositorio
   }
 
   async borrarTodos(): Promise<void> {
-    await prisma.turnoUnico.deleteMany();
+    await this.prisma.turnoUnico.deleteMany();
   }
 
   async obtenerPorFechaYSlot(
     fecha: Date,
     slot: Slot
   ): Promise<TurnoUnico | null> {
-    const prismaTurno = await prisma.turnoUnico.findFirst({
+    const prismaTurno = await this.prisma.turnoUnico.findFirst({
       where: {
         fecha: fecha,
         horaInicio: slot.horaInicio,

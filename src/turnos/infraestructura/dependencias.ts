@@ -1,3 +1,4 @@
+import { prisma } from "../../infraestructure/db/prisma";
 import { ProveedorDeFechaYHoraReal } from "../../proveedor_de_tiempo/infraestructura/proveedor-de-fecha-y-hora-real";
 import { PrismaUsuariosRepositorio } from "../../users/infrastructure/user-repository/prisma-usuarios-repositorio";
 import { AgendarTurnoUnico } from "../aplicacion/agendar-turno-unico";
@@ -6,7 +7,7 @@ import { TurnosControlador } from "./rest-api/turnos-controlador";
 
 export const dependencias = {
   repositorio_usuarios: new PrismaUsuariosRepositorio(),
-  repositorio: new PrismaTurnosRepositorio(),
+  repositorio: new PrismaTurnosRepositorio(prisma),
   proveedorTiempo: new ProveedorDeFechaYHoraReal(),
 };
 

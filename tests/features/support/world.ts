@@ -16,7 +16,7 @@ export class CustomWorld extends World {
   public testData: Record<string, any> = {};
   public proveedorDeFechaYHora!: ProveedorDeFechaYHoraFake;
   public usuariosRepositorio = new PrismaUsuariosRepositorio();
-  public turnosRepositorio = new PrismaTurnosRepositorio();
+  public turnosRepositorio = new PrismaTurnosRepositorio(prisma);
   public agnedasRepositorio = new PrismaAgendaRepositorio(prisma);
   public usuarioActualTelegramId?: string;
   public app = app;

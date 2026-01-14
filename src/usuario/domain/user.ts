@@ -21,6 +21,7 @@ export class User {
     readonly lastName: string,
     readonly phone: string,
     readonly address: string,
+    readonly rol: string = "CLIENTE",
     readonly id?: string
   ) {
     this.validateName(name);

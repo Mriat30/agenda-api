@@ -8,6 +8,11 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum Rol {
+  ADMIN
+  CLIENTE
+}
+
 model User {
   id          String       @id @default(uuid())
   telegram_id String       @unique
@@ -15,6 +20,8 @@ model User {
   last_name   String
   phone       String       @unique
   address     String
+  rol         Rol          @default(CLIENTE)
+
   TurnoUnico  TurnoUnico[]
 }
 

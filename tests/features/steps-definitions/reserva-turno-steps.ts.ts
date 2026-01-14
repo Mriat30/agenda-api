@@ -2,13 +2,13 @@ import { Given, Then, When } from "@cucumber/cucumber";
 import { expect } from "chai";
 import request from "supertest";
 
+import { Agenda } from "../../../src/agenda/dominio/agenda";
 import { app } from "../../../src/app";
 import { ProveedorDeFechaYHoraFake } from "../../../src/proveedor_de_tiempo/infraestructura/proveedor-de-fecha-y-hora-fake";
 import { Slot } from "../../../src/turnos/dominio/slot";
 import { TurnoUnico } from "../../../src/turnos/dominio/turno-unico";
 import { dependencias } from "../../../src/turnos/infraestructura/dependencias";
 import { User } from "../../../src/users/domain/user";
-import { PrismaUsuariosRepositorio } from "../../../src/users/infrastructure/user-repository/prisma-usuarios-repositorio";
 import { CustomWorld } from "../support/world";
 
 Given(
@@ -22,8 +22,15 @@ Given(
   }
 );
 
+Given(
+  "que existe la agenda de ID {string}",
+  async function (this: CustomWorld, id: string) {
+    const agenda = new Agenda("Agenda de Masajes", 60, [], id);
+    await this.agnedasRepositorio.guardar(agenda);
+  }
+);
+
 Given("que estoy registrado", async function (this: CustomWorld) {
-  const usuariosRepositorio = new PrismaUsuariosRepositorio();
   const telegramId = "55555";
   const user = new User(
     telegramId,
@@ -33,24 +40,28 @@ Given("que estoy registrado", async function (this: CustomWorld) {
     "Calle Falsa 123"
   );
 
-  await usuariosRepositorio.borrarTodos();
-  await usuariosRepositorio.guardar(user);
+  await this.usuariosRepositorio.borrarTodos();
+  await this.usuariosRepositorio.guardar(user);
   this.usuarioActualTelegramId = telegramId;
 });
 
 Given(
   "que el turno del {string} a las {string} está disponible",
   async function (this: CustomWorld, _fecha: string, _hora: string) {
-    this.turnosRepositorio.borrarTodos();
+    await this.turnosRepositorio.borrarTodos();
   }
 );
 
 When(
-  "intento reservar el turno del {string} a las {string}",
-  async function (this: CustomWorld, fechaStr: string, hora: string) {
+  "intento reservar el turno del {string} a las {string} en la agenda de ID {string}",
+  async function (
+    this: CustomWorld,
+    fechaStr: string,
+    hora: string,
+    agendaId: string
+  ) {
     const [dia, mes, anio] = fechaStr.split("-");
     const fechaISO = `${anio}-${mes}-${dia}`;
-
     const inicio = `${fechaISO}T${hora}:00Z`;
     const finDate = new Date(inicio);
 
@@ -68,6 +79,7 @@ When(
         horaInicio: inicio,
         horaFin: finDate.toISOString(),
         fecha: `${fechaISO}T00:00:00Z`,
+        agendaId: agendaId,
       });
   }
 );
@@ -95,7 +107,7 @@ Given(
       "Masaje de prueba (Ocupante)",
       new Slot(inicio, fin),
       new Date(`${fechaISO}T00:00:00Z`),
-      "pendiente"
+      "12345"
     );
     await this.turnosRepositorio.guardar(turnoUnico);
   }

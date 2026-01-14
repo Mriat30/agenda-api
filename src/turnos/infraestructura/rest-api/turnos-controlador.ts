@@ -92,14 +92,16 @@ export class TurnosControlador {
             }
         }
     */
-    const { telegramId, masaje, horaInicio, horaFin, fecha } = req.body;
+    const { telegramId, masaje, horaInicio, horaFin, fecha, agendaId } =
+      req.body;
     try {
       await this.agendarTurnoUnico.agendar(
         telegramId,
         masaje,
         new Date(horaInicio),
         new Date(horaFin),
-        new Date(fecha)
+        new Date(fecha),
+        agendaId
       );
       res.status(201).send();
     } catch (error) {

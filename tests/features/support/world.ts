@@ -1,7 +1,9 @@
 import { IWorldOptions, setWorldConstructor, World } from "@cucumber/cucumber";
 import type { Response } from "supertest";
 
+import { PrismaAgendaRepositorio } from "../../../src/agenda/infraestructura/prisma-agendas-repositorio";
 import { app } from "../../../src/app";
+import { prisma } from "../../../src/infraestructure/db/prisma";
 import { ProveedorDeFechaYHoraFake } from "../../../src/proveedor_de_tiempo/infraestructura/proveedor-de-fecha-y-hora-fake";
 import { dependencias } from "../../../src/turnos/infraestructura/dependencias";
 import { PrismaTurnosRepositorio } from "../../../src/turnos/infraestructura/repositorio/prisma-turnos-repositorio";
@@ -15,6 +17,7 @@ export class CustomWorld extends World {
   public proveedorDeFechaYHora!: ProveedorDeFechaYHoraFake;
   public usuariosRepositorio = new PrismaUsuariosRepositorio();
   public turnosRepositorio = new PrismaTurnosRepositorio();
+  public agnedasRepositorio = new PrismaAgendaRepositorio(prisma);
   public usuarioActualTelegramId?: string;
   public app = app;
 

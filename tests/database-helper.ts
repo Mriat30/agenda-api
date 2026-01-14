@@ -9,6 +9,8 @@ export const DatabaseHelper = {
     await prisma.$transaction([
       prisma.turnoUnico.deleteMany(),
       prisma.user.deleteMany(),
+      prisma.horarioDeAtencionPorDia.deleteMany(),
+      prisma.agenda.deleteMany(),
     ]);
   },
 

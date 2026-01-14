@@ -18,6 +18,29 @@ model User {
   TurnoUnico  TurnoUnico[]
 }
 
+model Agenda {
+  id                      String                    @id @default(uuid())
+  nombre                  String
+  duracionTurnosEnMinutos Int                       @map("duracion_turnos_minutos")
+  horariosDeAtencion      HorarioDeAtencionPorDia[]
+  turnos                  TurnoUnico[]
+
+  @@map("agenda")
+}
+
+model HorarioDeAtencionPorDia {
+  id         String   @id @default(uuid())
+  dia        String   // LUNES, MARTES...
+  horaInicio DateTime @map("hora_inicio")
+  horaFin    DateTime @map("hora_fin")
+  activo     Boolean  @default(true)
+  agendaId   String   @map("agenda_id")
+  
+  agenda     Agenda   @relation(fields: [agendaId], references: [id])
+
+  @@map("horario_atencion_dia")
+}
+
 model TurnoUnico {
   id         String   @id @default(uuid())
   telegramId String   @map("telegram_id")
@@ -26,8 +49,10 @@ model TurnoUnico {
   horaFin    DateTime @map("hora_fin")
   fecha      DateTime @db.Date
   estado     String
+  agendaId   String   @map("agenda_id") // Nueva FK
 
-  user User @relation(fields: [telegramId], references: [telegram_id])
+  user   User   @relation(fields: [telegramId], references: [telegram_id])
+  agenda Agenda @relation(fields: [agendaId], references: [id])
 
   @@map("turno_unico")
 }

@@ -16,7 +16,8 @@ export class AgendarTurnoUnico {
     masaje: string,
     horaInicio: Date,
     horaFin: Date,
-    fecha: Date
+    fecha: Date,
+    agendaId: string
   ): Promise<void> {
     const slot = new Slot(horaInicio, horaFin);
     const nuevoTurno = new TurnoUnico(
@@ -24,7 +25,7 @@ export class AgendarTurnoUnico {
       masaje,
       slot,
       fecha,
-      "pendiente"
+      agendaId
     );
     await this.validarUsuario(telegramId);
     this.validarFecha(fecha);

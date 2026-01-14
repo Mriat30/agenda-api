@@ -11,21 +11,27 @@ export class PrismaTurnosRepositorio
     await prisma.turnoUnico.upsert({
       where: { id: turno.id ?? "" },
       update: {
-        telegramId: turno.telegramId,
         masaje: turno.masaje,
         horaInicio: turno.slot.horaInicio,
         horaFin: turno.slot.horaFin,
         fecha: turno.fecha,
         estado: turno.estado,
+        telegramId: turno.telegramId,
+        agendaId: turno.agendaId,
       },
       create: {
         id: turno.id,
-        telegramId: turno.telegramId,
         masaje: turno.masaje,
         horaInicio: turno.slot.horaInicio,
         horaFin: turno.slot.horaFin,
         fecha: turno.fecha,
         estado: turno.estado,
+        user: {
+          connect: { telegram_id: turno.telegramId },
+        },
+        agenda: {
+          connect: { id: turno.agendaId },
+        },
       },
     });
   }
@@ -33,20 +39,17 @@ export class PrismaTurnosRepositorio
   async obtenerTodos(): Promise<TurnoUnico[]> {
     const prismaTurnos = await prisma.turnoUnico.findMany();
 
-    if (prismaTurnos.length > 0) {
-      return prismaTurnos.map(
-        (prismaTurno) =>
-          new TurnoUnico(
-            prismaTurno.telegramId,
-            prismaTurno.masaje,
-            new Slot(prismaTurno.horaInicio, prismaTurno.horaFin),
-            prismaTurno.fecha,
-            prismaTurno.estado,
-            prismaTurno.id
-          )
-      );
-    }
-    return [];
+    return prismaTurnos.map(
+      (prismaTurno) =>
+        new TurnoUnico(
+          prismaTurno.telegramId,
+          prismaTurno.masaje,
+          new Slot(prismaTurno.horaInicio, prismaTurno.horaFin),
+          prismaTurno.fecha,
+          prismaTurno.agendaId,
+          prismaTurno.id
+        )
+    );
   }
 
   async borrarTodos(): Promise<void> {
@@ -65,16 +68,15 @@ export class PrismaTurnosRepositorio
       },
     });
 
-    if (prismaTurno) {
-      return new TurnoUnico(
-        prismaTurno.telegramId,
-        prismaTurno.masaje,
-        new Slot(prismaTurno.horaInicio, prismaTurno.horaFin),
-        prismaTurno.fecha,
-        prismaTurno.estado,
-        prismaTurno.id
-      );
-    }
-    return null;
+    if (!prismaTurno) return null;
+
+    return new TurnoUnico(
+      prismaTurno.telegramId,
+      prismaTurno.masaje,
+      new Slot(prismaTurno.horaInicio, prismaTurno.horaFin),
+      prismaTurno.fecha,
+      prismaTurno.agendaId,
+      prismaTurno.id
+    );
   }
 }

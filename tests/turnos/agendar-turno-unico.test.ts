@@ -14,6 +14,10 @@ import { UsuariosRepositorio } from "../../src/users/domain/user-repository";
 describe("AgendarTurnoUnico", () => {
   let repositorioTurnos: TurnosRepositorio;
   let repositorioUsuarios: UsuariosRepositorio;
+  const AGENDA_ID = "123";
+  const proveedorFechaYHora = new ProveedorDeFechaYHoraFake(
+    new Date("2024-06-30T12:00:00Z")
+  );
 
   beforeEach(() => {
     repositorioTurnos = {
@@ -33,9 +37,6 @@ describe("AgendarTurnoUnico", () => {
   });
 
   it("deberia agendar un turno unico y guardarlo en el repositorio, exitosamente", async () => {
-    const proveedorFechaYHora = new ProveedorDeFechaYHoraFake(
-      new Date("2024-06-30T12:00:00Z")
-    );
     const agendarTurnoUnico = new AgendarTurnoUnico(
       repositorioUsuarios,
       repositorioTurnos,
@@ -49,7 +50,7 @@ describe("AgendarTurnoUnico", () => {
         new Date("2024-07-01T11:00:00Z")
       ),
       new Date("2024-07-01"),
-      "pendiente"
+      AGENDA_ID
     );
 
     await agendarTurnoUnico.agendar(
@@ -57,7 +58,8 @@ describe("AgendarTurnoUnico", () => {
       nuevoTurnoUnico.masaje,
       nuevoTurnoUnico.slot.horaInicio,
       nuevoTurnoUnico.slot.horaFin,
-      nuevoTurnoUnico.fecha
+      nuevoTurnoUnico.fecha,
+      nuevoTurnoUnico.agendaId
     );
 
     expect(repositorioTurnos.guardar).toHaveBeenCalledWith(nuevoTurnoUnico);
@@ -82,7 +84,7 @@ describe("AgendarTurnoUnico", () => {
       "Masaje deportivo",
       new Slot(inicioTest, finTest),
       fechaTest,
-      "pendiente"
+      AGENDA_ID
     );
 
     (repositorioTurnos.obtenerPorFechaYSlot as jest.Mock).mockResolvedValueOnce(
@@ -95,7 +97,8 @@ describe("AgendarTurnoUnico", () => {
         "Masaje relajante",
         inicioTest,
         finTest,
-        fechaTest
+        fechaTest,
+        "2"
       )
     ).rejects.toThrow(HorarioNoDisponibleError);
   });
@@ -120,7 +123,8 @@ describe("AgendarTurnoUnico", () => {
         "Masaje relajante",
         inicioPasado,
         finPasado,
-        fechaPasada
+        fechaPasada,
+        AGENDA_ID
       )
     ).rejects.toThrow(FechaInvalidaError);
   });
@@ -149,7 +153,8 @@ describe("AgendarTurnoUnico", () => {
         "Masaje relajante",
         inicioTest,
         finTest,
-        fechaTest
+        fechaTest,
+        AGENDA_ID
       )
     ).rejects.toThrow(UsuarioNoRegistradoError);
   });

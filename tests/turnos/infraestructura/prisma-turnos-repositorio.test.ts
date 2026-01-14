@@ -6,6 +6,7 @@ import { DatabaseHelper } from "../../database-helper";
 
 describe("PrismaTurnosRepositorio Integration", () => {
   let repositorio: PrismaTurnosRepositorio;
+  let agendaId: string;
   const TELEGRAM_ID = "123456789";
 
   beforeEach(async () => {
@@ -21,6 +22,14 @@ describe("PrismaTurnosRepositorio Integration", () => {
         address: "Calle Falsa 123",
       },
     });
+
+    const agenda = await prisma.agenda.create({
+      data: {
+        nombre: "Agenda General",
+        duracionTurnosEnMinutos: 60,
+      },
+    });
+    agendaId = agenda.id;
   });
 
   afterAll(async () => {
@@ -38,7 +47,7 @@ describe("PrismaTurnosRepositorio Integration", () => {
         "Masaje deportivo",
         new Slot(horaInicio, horaFin),
         fechaTurno,
-        "pendiente"
+        agendaId
       );
 
       await repositorio.guardar(nuevoTurnoUnico);
@@ -72,7 +81,7 @@ describe("PrismaTurnosRepositorio Integration", () => {
         "Masaje relajante",
         new Slot(horaInicio1, horaFin1),
         fechaTurno1,
-        "confirmado"
+        agendaId
       );
       const fechaTurno2 = new Date("2024-08-02T00:00:00Z");
       const horaInicio2 = new Date("2024-08-02T16:00:00Z");
@@ -82,7 +91,7 @@ describe("PrismaTurnosRepositorio Integration", () => {
         "Masaje deportivo",
         new Slot(horaInicio2, horaFin2),
         fechaTurno2,
-        "pendiente"
+        agendaId
       );
       await repositorio.guardar(turnoUnico1);
       await repositorio.guardar(turnoUnico2);
@@ -107,7 +116,7 @@ describe("PrismaTurnosRepositorio Integration", () => {
         "Masaje relajante",
         new Slot(horaInicio, horaFin),
         fechaTurno,
-        "confirmado"
+        agendaId
       );
 
       await repositorio.guardar(turnoUnico);
@@ -143,7 +152,7 @@ describe("PrismaTurnosRepositorio Integration", () => {
         "Masaje relajante",
         new Slot(horaInicio, horaFin),
         fechaTurno,
-        "confirmado"
+        agendaId
       );
 
       await repositorio.guardar(turnoUnico);

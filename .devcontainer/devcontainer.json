@@ -9,7 +9,7 @@
         "dbaeumer.vscode-eslint",
         "esbenp.prettier-vscode",
         "prisma.prisma",
-        "alexkrechik.cucumberautocomplete"
+        "CucumberOpen.cucumber-official"
       ]
     }
   },

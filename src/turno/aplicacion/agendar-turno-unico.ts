@@ -1,5 +1,5 @@
 import { ProveedorDeFechaYHora } from "../../proveedor_de_tiempo/dominio/proveedor-de-fecha-y-hora";
-import { UsuariosRepositorio } from "../../users/domain/user-repository";
+import { UsuariosRepositorio } from "../../usuario/domain/user-repository";
 import { Slot } from "../dominio/slot";
 import { TurnoUnico } from "../dominio/turno-unico";
 import { TurnosRepositorio } from "../dominio/turnos_repositorio";

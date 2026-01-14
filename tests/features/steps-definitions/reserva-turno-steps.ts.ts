@@ -5,10 +5,10 @@ import request from "supertest";
 import { Agenda } from "../../../src/agenda/dominio/agenda";
 import { app } from "../../../src/app";
 import { ProveedorDeFechaYHoraFake } from "../../../src/proveedor_de_tiempo/infraestructura/proveedor-de-fecha-y-hora-fake";
-import { Slot } from "../../../src/turnos/dominio/slot";
-import { TurnoUnico } from "../../../src/turnos/dominio/turno-unico";
-import { dependencias } from "../../../src/turnos/infraestructura/dependencias";
-import { User } from "../../../src/users/domain/user";
+import { Slot } from "../../../src/turno/dominio/slot";
+import { TurnoUnico } from "../../../src/turno/dominio/turno-unico";
+import { dependencias } from "../../../src/turno/infraestructura/dependencias";
+import { User } from "../../../src/usuario/domain/user";
 import { CustomWorld } from "../support/world";
 
 Given(

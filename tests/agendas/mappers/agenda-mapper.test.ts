@@ -1,5 +1,5 @@
-import { CrearAgendaDTO } from "../../../src/turnos/aplicacion/dtos/agenda-dto";
-import { AgendaMapper } from "../../../src/turnos/aplicacion/mappers/agenda-mapper";
+import { CrearAgendaDTO } from "../../../src/turno/aplicacion/dtos/agenda-dto";
+import { AgendaMapper } from "../../../src/turno/aplicacion/mappers/agenda-mapper";
 
 describe("AgendaMapper con fechas", () => {
   it("debería convertir los strings del DTO en objetos Date dentro del Slot", () => {

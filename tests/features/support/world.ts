@@ -5,10 +5,10 @@ import { PrismaAgendaRepositorio } from "../../../src/agenda/infraestructura/pri
 import { app } from "../../../src/app";
 import { prisma } from "../../../src/infraestructure/db/prisma";
 import { ProveedorDeFechaYHoraFake } from "../../../src/proveedor_de_tiempo/infraestructura/proveedor-de-fecha-y-hora-fake";
-import { dependencias } from "../../../src/turnos/infraestructura/dependencias";
-import { PrismaTurnosRepositorio } from "../../../src/turnos/infraestructura/repositorio/prisma-turnos-repositorio";
-import { User } from "../../../src/users/domain/user";
-import { PrismaUsuariosRepositorio } from "../../../src/users/infrastructure/user-repository/prisma-usuarios-repositorio";
+import { dependencias } from "../../../src/turno/infraestructura/dependencias";
+import { PrismaTurnosRepositorio } from "../../../src/turno/infraestructura/repositorio/prisma-turnos-repositorio";
+import { User } from "../../../src/usuario/domain/user";
+import { PrismaUsuariosRepositorio } from "../../../src/usuario/infrastructure/user-repository/prisma-usuarios-repositorio";
 import { DatabaseHelper } from "../../database-helper";
 
 export class CustomWorld extends World {

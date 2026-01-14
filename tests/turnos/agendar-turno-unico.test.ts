@@ -4,12 +4,12 @@ import {
   FechaInvalidaError,
   HorarioNoDisponibleError,
   UsuarioNoRegistradoError,
-} from "../../src/turnos/aplicacion/agendar-turno-unico";
-import { Slot } from "../../src/turnos/dominio/slot";
-import { TurnoUnico } from "../../src/turnos/dominio/turno-unico";
-import { TurnosRepositorio } from "../../src/turnos/dominio/turnos_repositorio";
-import { User } from "../../src/users/domain/user";
-import { UsuariosRepositorio } from "../../src/users/domain/user-repository";
+} from "../../src/turno/aplicacion/agendar-turno-unico";
+import { Slot } from "../../src/turno/dominio/slot";
+import { TurnoUnico } from "../../src/turno/dominio/turno-unico";
+import { TurnosRepositorio } from "../../src/turno/dominio/turnos_repositorio";
+import { User } from "../../src/usuario/domain/user";
+import { UsuariosRepositorio } from "../../src/usuario/domain/user-repository";
 
 describe("AgendarTurnoUnico", () => {
   let repositorioTurnos: TurnosRepositorio;

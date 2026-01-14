@@ -3,7 +3,7 @@ import { expect } from "chai";
 import request from "supertest";
 
 import { app } from "../../../src/app";
-import { User } from "../../../src/users/domain/user";
+import { User } from "../../../src/usuario/domain/user";
 import { CustomWorld } from "../support/world";
 
 Given(

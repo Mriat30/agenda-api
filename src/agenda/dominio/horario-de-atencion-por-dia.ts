@@ -1,4 +1,4 @@
-import { Slot } from "../../turnos/dominio/slot";
+import { Slot } from "../../turno/dominio/slot";
 
 export class HorarioDeAtencionPorDia {
   constructor(

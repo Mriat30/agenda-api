@@ -3,8 +3,8 @@ import swaggerUI from "swagger-ui-express";
 
 import swaggerDocumentation from "../swagger.json";
 import { healthRouter } from "./health/infraestructure/rest-api/health-router";
-import { turnosRouter } from "./turnos/infraestructura/rest-api/turnos-router";
-import { userRouter } from "./users/infrastructure/rest-api/user-router";
+import { turnosRouter } from "./turno/infraestructura/rest-api/turnos-router";
+import { userRouter } from "./usuario/infrastructure/rest-api/user-router";
 
 export function createApp() {
   const app = express();

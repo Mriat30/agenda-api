@@ -2,7 +2,7 @@ import { Agenda } from "../../../src/agenda/dominio/agenda";
 import { HorarioDeAtencionPorDia } from "../../../src/agenda/dominio/horario-de-atencion-por-dia";
 import { PrismaAgendaRepositorio } from "../../../src/agenda/infraestructura/prisma-agendas-repositorio";
 import { prisma } from "../../../src/infraestructure/db/prisma";
-import { Slot } from "../../../src/turnos/dominio/slot";
+import { Slot } from "../../../src/turno/dominio/slot";
 import { DatabaseHelper } from "../../database-helper";
 
 describe("PrismaAgendaRepository Integration Test", () => {

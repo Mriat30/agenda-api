@@ -1,6 +1,6 @@
-import { GetUserByPhoneNumber } from "../../../src/users/application/get-user-by-phone-number";
-import { User } from "../../../src/users/domain/user";
-import { UsuariosRepositorio } from "../../../src/users/domain/user-repository";
+import { GetUserByPhoneNumber } from "../../../src/usuario/application/get-user-by-phone-number";
+import { User } from "../../../src/usuario/domain/user";
+import { UsuariosRepositorio } from "../../../src/usuario/domain/user-repository";
 
 describe("GetUserByPhoneNumber", () => {
   let repository: UsuariosRepositorio;

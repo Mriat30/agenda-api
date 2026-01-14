@@ -2,7 +2,7 @@ import {
   InvalidNameFormatError,
   RequiredNameError,
   User,
-} from "../../../src/users/domain/user";
+} from "../../../src/usuario/domain/user";
 
 describe("User", () => {
   it("should throw RequiredNameError if the name is not provided", () => {

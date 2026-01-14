@@ -1,6 +1,6 @@
-import { GetUserByTelegramId } from "../../../src/users/application/get-user-by-telegram-id";
-import { User } from "../../../src/users/domain/user";
-import { UsuariosRepositorio } from "../../../src/users/domain/user-repository";
+import { GetUserByTelegramId } from "../../../src/usuario/application/get-user-by-telegram-id";
+import { User } from "../../../src/usuario/domain/user";
+import { UsuariosRepositorio } from "../../../src/usuario/domain/user-repository";
 
 describe("GetUserByTelegramId", () => {
   let repository: UsuariosRepositorio;

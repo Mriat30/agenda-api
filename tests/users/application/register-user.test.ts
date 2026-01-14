@@ -1,9 +1,9 @@
 import {
   PhoneNumberAlreadyExistsError,
   RegisterUser,
-} from "../../../src/users/application/register-user";
-import { User } from "../../../src/users/domain/user";
-import { UsuariosRepositorio } from "../../../src/users/domain/user-repository";
+} from "../../../src/usuario/application/register-user";
+import { User } from "../../../src/usuario/domain/user";
+import { UsuariosRepositorio } from "../../../src/usuario/domain/user-repository";
 
 describe("RegisterUser", () => {
   let repository: UsuariosRepositorio;

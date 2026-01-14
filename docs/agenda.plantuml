@@ -1,22 +1,25 @@
 @startuml
 
 
-class AgendaRepositorio {
+class CrearAgenda{
+- usuariosRepositorio: UsuariosRepositorio
+- agendasRepositorio: AgendasRepositorio
++CrearAgenda(usuariosRepositorio: UsuariosRepositorio, agendasRepositorio: AgendasRepositorio)
++crear(nombre: String, horaApertura: Date, horaCierre: Date,duracionTurnosEnMinutos: Int): Promise<void>
 }
-
 
 class Agenda{
 -id: String
 -nombre: String
--cantidadTurnosOfrecidosEnMinutos: Int
-+Agenda(nombre: String, horaApertura: Date, horaCierre: Date)
+-duracionTurnosEnMinutos: Int
++Agenda(id?: String, nombre: String, duracionTurnosEnMinutos: Int, horariosDeAtencionPorDia: List<HorarioDeAtencionPorDia>)
 }
 
 class HorarioDeAtencionPorDia{
 -id: String
 -dia: String
 -intervaloDeAtencion: Slot
-+HorarioDeAtencionPorDia(horaApertura: Date, horaCierre: Date)
++HorarioDeAtencionPorDia(dia: String,horaApertura: Date, horaCierre: Date)
 }
 
 Agenda "1 "*-- "N" HorarioDeAtencionPorDia

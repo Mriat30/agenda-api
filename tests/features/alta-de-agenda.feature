@@ -5,8 +5,7 @@ Característica: Registro de un usuario
   para que los clientes puedan reservar citas.
 
   Regla: El administrador debe estar autenticado para dar de alta una agenda
-    @wip
-    Escenario: RU1: Alta exitosa de una agenda por un administrador autenticado
+    Escenario: AA1: Alta exitosa de una agenda por un administrador autenticado
         Dado que el administrador está autenticado
         Cuando intento crear una agenda con los siguientes datos:
         | nombre          | Agenda matutina |

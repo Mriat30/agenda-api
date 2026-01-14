@@ -5,6 +5,7 @@ import { PrismaAgendaRepositorio } from "../../../src/agenda/infraestructura/pri
 import { app } from "../../../src/app";
 import { prisma } from "../../../src/infraestructure/db/prisma";
 import { ProveedorDeFechaYHoraFake } from "../../../src/proveedor_de_tiempo/infraestructura/proveedor-de-fecha-y-hora-fake";
+import { ProveedorAutenticacionFake } from "../../../src/proveedor-autenticacion/infraestructura/proveedor-autenticacion-fake";
 import { dependencias } from "../../../src/turno/infraestructura/dependencias";
 import { PrismaTurnosRepositorio } from "../../../src/turno/infraestructura/repositorio/prisma-turnos-repositorio";
 import { User } from "../../../src/usuario/domain/user";
@@ -15,6 +16,7 @@ export class CustomWorld extends World {
   public lastResponse?: Response;
   public testData: Record<string, any> = {};
   public proveedorDeFechaYHora!: ProveedorDeFechaYHoraFake;
+  public proveedorAutenticacionAdmin!: ProveedorAutenticacionFake;
   public usuariosRepositorio = new PrismaUsuariosRepositorio();
   public turnosRepositorio = new PrismaTurnosRepositorio(prisma);
   public agnedasRepositorio = new PrismaAgendaRepositorio(prisma);

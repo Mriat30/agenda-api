@@ -7,8 +7,8 @@ export class AutenticacionMiddleware {
     const telegramId = req.headers["x-telegram-id"] as string;
 
     if (!telegramId) return res.status(401).send();
-    const esAdmin = await this.container.autenticador.esAdmin(telegramId);
-    if (!esAdmin) return res.status(403).send();
+    const autorizar = await this.container.autenticador.autorizar(telegramId);
+    if (!autorizar) return res.status(403).send();
 
     next();
   };

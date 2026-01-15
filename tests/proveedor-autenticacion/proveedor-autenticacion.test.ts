@@ -17,9 +17,11 @@ describe("ProveedorAutenticacion", () => {
     });
 
     proveedorAutenticacion = new ProveedorAutenticacion(usuariosRepositorio);
-    const esAdmin = await proveedorAutenticacion.esAdmin("some-telegram-id");
+    const autorizar = await proveedorAutenticacion.autorizar(
+      "some-telegram-id"
+    );
 
-    expect(esAdmin).toBe(true);
+    expect(autorizar).toBe(true);
   });
 
   it("debería retornar false si el usuario no es admin", async () => {
@@ -28,8 +30,10 @@ describe("ProveedorAutenticacion", () => {
     });
 
     proveedorAutenticacion = new ProveedorAutenticacion(usuariosRepositorio);
-    const esAdmin = await proveedorAutenticacion.esAdmin("some-telegram-id");
+    const autorizar = await proveedorAutenticacion.autorizar(
+      "some-telegram-id"
+    );
 
-    expect(esAdmin).toBe(false);
+    expect(autorizar).toBe(false);
   });
 });

@@ -1,4 +1,8 @@
-import { ProveedorAutenticacion } from "../../src/proveedor-autenticacion/infraestructura/proveedor-autenticacion";
+import {
+  ProveedorAutenticacion,
+  UsuarioNoAutorizadoError,
+} from "../../src/proveedor-autenticacion/infraestructura/proveedor-autenticacion";
+import { User } from "../../src/usuario/domain/user";
 import { UsuariosRepositorio } from "../../src/usuario/domain/user-repository";
 
 describe("ProveedorAutenticacion", () => {
@@ -9,31 +13,44 @@ describe("ProveedorAutenticacion", () => {
     usuariosRepositorio = {
       obtenerPorTelegramId: jest.fn(),
     } as unknown as UsuariosRepositorio;
+    proveedorAutenticacion = new ProveedorAutenticacion(usuariosRepositorio);
   });
 
-  it("debería retornar true si el usuario es admin", async () => {
-    (usuariosRepositorio.obtenerPorTelegramId as jest.Mock).mockResolvedValue({
-      rol: "ADMIN",
-    });
-
-    proveedorAutenticacion = new ProveedorAutenticacion(usuariosRepositorio);
-    const autorizar = await proveedorAutenticacion.autorizar(
-      "some-telegram-id"
+  it("debería autorizar exitosamente si el usuario es admin", async () => {
+    const adminUser = new User(
+      "some-telegram-id",
+      "Juan",
+      "Perez",
+      "123456",
+      "Calle 123",
+      "ADMIN"
     );
 
-    expect(autorizar).toBe(true);
+    (usuariosRepositorio.obtenerPorTelegramId as jest.Mock).mockResolvedValue(
+      adminUser
+    );
+
+    await expect(
+      proveedorAutenticacion.autorizar("some-telegram-id")
+    ).resolves.not.toThrow();
   });
 
-  it("debería retornar false si el usuario no es admin", async () => {
-    (usuariosRepositorio.obtenerPorTelegramId as jest.Mock).mockResolvedValue({
-      rol: "USER",
-    });
-
-    proveedorAutenticacion = new ProveedorAutenticacion(usuariosRepositorio);
-    const autorizar = await proveedorAutenticacion.autorizar(
-      "some-telegram-id"
+  it("si el usuario no esta autorizado deberia lanzar error", async () => {
+    const normalUser = new User(
+      "some-telegram-id",
+      "Juan",
+      "Perez",
+      "123456",
+      "Calle 123",
+      "CLIENTE"
     );
 
-    expect(autorizar).toBe(false);
+    (usuariosRepositorio.obtenerPorTelegramId as jest.Mock).mockResolvedValue(
+      normalUser
+    );
+
+    await expect(
+      proveedorAutenticacion.autorizar("some-telegram-id")
+    ).rejects.toThrow(UsuarioNoAutorizadoError);
   });
 });

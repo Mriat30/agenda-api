@@ -4,8 +4,17 @@ import { Autenticador } from "../dominio/autenticador";
 export class ProveedorAutenticacion implements Autenticador {
   constructor(private readonly usuariosRepositorio: UsuariosRepositorio) {}
 
-  async autorizar(id: string): Promise<boolean> {
+  async autorizar(id: string): Promise<void> {
     const usuario = await this.usuariosRepositorio.obtenerPorTelegramId(id);
-    return usuario?.rol === "ADMIN";
+    if (!usuario?.esAdmin()) {
+      throw new UsuarioNoAutorizadoError("Usuario no autorizado");
+    }
+  }
+}
+
+export class UsuarioNoAutorizadoError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = "UsuarioNoAutorizadoError";
   }
 }

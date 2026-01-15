@@ -36,4 +36,8 @@ export class User {
       throw new InvalidNameFormatError(name);
     }
   }
+
+  public esAdmin(): boolean {
+    return this.rol === "ADMIN";
+  }
 }

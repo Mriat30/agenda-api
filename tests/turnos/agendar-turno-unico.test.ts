@@ -1,6 +1,7 @@
 import { ProveedorDeFechaYHoraFake } from "../../src/proveedor_de_tiempo/infraestructura/proveedor-de-fecha-y-hora-fake";
 import {
   AgendarTurnoUnico,
+  AgendarTurnoUnicoDependencias,
   FechaInvalidaError,
   HorarioNoDisponibleError,
   UsuarioNoRegistradoError,
@@ -14,10 +15,10 @@ import { UsuariosRepositorio } from "../../src/usuario/domain/user-repository";
 describe("AgendarTurnoUnico", () => {
   let repositorioTurnos: TurnosRepositorio;
   let repositorioUsuarios: UsuariosRepositorio;
+  let proveedorFechaYHora: ProveedorDeFechaYHoraFake;
+  let deps: AgendarTurnoUnicoDependencias;
+
   const AGENDA_ID = "123";
-  const proveedorFechaYHora = new ProveedorDeFechaYHoraFake(
-    new Date("2024-06-30T12:00:00Z")
-  );
 
   beforeEach(() => {
     repositorioTurnos = {
@@ -34,14 +35,20 @@ describe("AgendarTurnoUnico", () => {
       guardar: jest.fn(),
       borrarTodos: jest.fn(),
     } as unknown as jest.Mocked<UsuariosRepositorio>;
+
+    proveedorFechaYHora = new ProveedorDeFechaYHoraFake(
+      new Date("2024-06-30T12:00:00Z")
+    );
+
+    deps = {
+      usuariosRepositorio: repositorioUsuarios,
+      turnosRepositorio: repositorioTurnos,
+      proveedorDeFechaYHora: proveedorFechaYHora,
+    };
   });
 
   it("deberia agendar un turno unico y guardarlo en el repositorio, exitosamente", async () => {
-    const agendarTurnoUnico = new AgendarTurnoUnico(
-      repositorioUsuarios,
-      repositorioTurnos,
-      proveedorFechaYHora
-    );
+    const agendarTurnoUnico = new AgendarTurnoUnico(deps);
     const nuevoTurnoUnico = new TurnoUnico(
       "123456789",
       "Masaje relajante",
@@ -66,14 +73,7 @@ describe("AgendarTurnoUnico", () => {
   });
 
   it("deberia lanzar error si ya existe un turno en el mismo slot y fecha", async () => {
-    const proveedorFechaYHora = new ProveedorDeFechaYHoraFake(
-      new Date("2024-06-30T12:00:00Z")
-    );
-    const agendarTurnoUnico = new AgendarTurnoUnico(
-      repositorioUsuarios,
-      repositorioTurnos,
-      proveedorFechaYHora
-    );
+    const agendarTurnoUnico = new AgendarTurnoUnico(deps);
 
     const fechaTest = new Date("2024-07-01T00:00:00.000Z");
     const inicioTest = new Date("2024-07-01T10:00:00.000Z");
@@ -104,14 +104,7 @@ describe("AgendarTurnoUnico", () => {
   });
 
   it("si se quiere agendar un turno en el pasado, deberia lanzarse un error", async () => {
-    const proveedorFechaYHora = new ProveedorDeFechaYHoraFake(
-      new Date("2024-06-30T12:00:00Z")
-    );
-    const agendarTurnoUnico = new AgendarTurnoUnico(
-      repositorioUsuarios,
-      repositorioTurnos,
-      proveedorFechaYHora
-    );
+    const agendarTurnoUnico = new AgendarTurnoUnico(deps);
 
     const fechaPasada = new Date("2024-06-29T00:00:00.000Z");
     const inicioPasado = new Date("2024-06-29T10:00:00.000Z");
@@ -130,14 +123,7 @@ describe("AgendarTurnoUnico", () => {
   });
 
   it("si el usuario no esta registrado, deberia lanzarse un error", async () => {
-    const proveedorDeFechaYHora = new ProveedorDeFechaYHoraFake(
-      new Date("2024-06-30T12:00:00Z")
-    );
-    const agendarTurnoUnico = new AgendarTurnoUnico(
-      repositorioUsuarios,
-      repositorioTurnos,
-      proveedorDeFechaYHora
-    );
+    const agendarTurnoUnico = new AgendarTurnoUnico(deps);
 
     const fechaTest = new Date("2024-07-01T00:00:00.000Z");
     const inicioTest = new Date("2024-07-01T10:00:00.000Z");

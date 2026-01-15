@@ -17,7 +17,8 @@ Given(
     const [dia, mes, anio] = fecha.split("-");
     const fechaISO = `${anio}-${mes}-${dia}T${hora}:00Z`;
     const fakeTime = new ProveedorDeFechaYHoraFake(new Date(fechaISO));
-    dependencias.proveedorTiempo = fakeTime;
+
+    dependencias.proveedorDeFechaYHora = fakeTime;
     this.proveedorDeFechaYHora = fakeTime;
   }
 );
@@ -26,7 +27,7 @@ Given(
   "que existe la agenda de ID {string}",
   async function (this: CustomWorld, id: string) {
     const agenda = new Agenda("Agenda de Masajes", 60, [], id);
-    await this.agnedasRepositorio.guardar(agenda);
+    await this.agendasRepositorio.guardar(agenda);
   }
 );
 
@@ -47,6 +48,7 @@ Given("que estoy registrado", async function (this: CustomWorld) {
 
 Given(
   "que el turno del {string} a las {string} está disponible",
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   async function (this: CustomWorld, _fecha: string, _hora: string) {
     await this.turnosRepositorio.borrarTodos();
   }

@@ -4,12 +4,14 @@ import { Slot } from "../dominio/slot";
 import { TurnoUnico } from "../dominio/turno-unico";
 import { TurnosRepositorio } from "../dominio/turnos_repositorio";
 
+export interface AgendarTurnoUnicoDependencias {
+  usuariosRepositorio: UsuariosRepositorio;
+  turnosRepositorio: TurnosRepositorio;
+  proveedorDeFechaYHora: ProveedorDeFechaYHora;
+}
+
 export class AgendarTurnoUnico {
-  constructor(
-    private readonly usuariosRepositorio: UsuariosRepositorio,
-    private readonly turnosRepositorio: TurnosRepositorio,
-    private readonly proveedorDeFechaYHora: ProveedorDeFechaYHora
-  ) {}
+  constructor(private readonly dependencias: AgendarTurnoUnicoDependencias) {}
 
   async agendar(
     telegramId: string,
@@ -30,13 +32,14 @@ export class AgendarTurnoUnico {
     await this.validarUsuario(telegramId);
     this.validarFecha(fecha);
     await this.validarDisponibilidadHorario(fecha, slot);
-    await this.turnosRepositorio.guardar(nuevoTurno);
+    await this.dependencias.turnosRepositorio.guardar(nuevoTurno);
   }
 
   private async validarUsuario(telegramId: string): Promise<void> {
-    const usuario = await this.usuariosRepositorio.obtenerPorTelegramId(
-      telegramId
-    );
+    const usuario =
+      await this.dependencias.usuariosRepositorio.obtenerPorTelegramId(
+        telegramId
+      );
     if (!usuario) {
       throw new UsuarioNoRegistradoError(
         "El usuario no está registrado en el sistema."
@@ -48,10 +51,11 @@ export class AgendarTurnoUnico {
     fecha: Date,
     slot: Slot
   ): Promise<void> {
-    const turnoExistente = await this.turnosRepositorio.obtenerPorFechaYSlot(
-      fecha,
-      slot
-    );
+    const turnoExistente =
+      await this.dependencias.turnosRepositorio.obtenerPorFechaYSlot(
+        fecha,
+        slot
+      );
     if (turnoExistente) {
       throw new HorarioNoDisponibleError(
         "El horario seleccionado no está disponible."
@@ -60,7 +64,7 @@ export class AgendarTurnoUnico {
   }
 
   private validarFecha(fecha: Date): void {
-    const ahora = this.proveedorDeFechaYHora.ahora();
+    const ahora = this.dependencias.proveedorDeFechaYHora.ahora();
     if (fecha < ahora) {
       throw new FechaInvalidaError("La fecha del turno no puede ser pasada.");
     }

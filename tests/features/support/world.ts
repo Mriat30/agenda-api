@@ -1,6 +1,7 @@
 import { IWorldOptions, setWorldConstructor, World } from "@cucumber/cucumber";
 import type { Response } from "supertest";
 
+import { authConfig } from "../../../src/agenda/infraestructura/dependencias";
 import { PrismaAgendaRepositorio } from "../../../src/agenda/infraestructura/prisma-agendas-repositorio";
 import { app } from "../../../src/app";
 import { prisma } from "../../../src/infraestructure/db/prisma";
@@ -19,7 +20,7 @@ export class CustomWorld extends World {
   public proveedorAutenticacionAdmin!: ProveedorAutenticacionFake;
   public usuariosRepositorio = new PrismaUsuariosRepositorio();
   public turnosRepositorio = new PrismaTurnosRepositorio(prisma);
-  public agnedasRepositorio = new PrismaAgendaRepositorio(prisma);
+  public agendasRepositorio = new PrismaAgendaRepositorio(prisma);
   public usuarioActualTelegramId?: string;
   public app = app;
 
@@ -29,7 +30,14 @@ export class CustomWorld extends World {
 
   setFechaActual(fecha: Date) {
     this.proveedorDeFechaYHora = new ProveedorDeFechaYHoraFake(fecha);
-    dependencias.proveedorTiempo = this.proveedorDeFechaYHora;
+    dependencias.proveedorDeFechaYHora = this.proveedorDeFechaYHora;
+  }
+
+  setAutenticadorFake(estaAutorizado: boolean) {
+    this.proveedorAutenticacionAdmin = new ProveedorAutenticacionFake(
+      estaAutorizado
+    );
+    authConfig.autenticador = this.proveedorAutenticacionAdmin;
   }
 
   async cleanDatabase() {

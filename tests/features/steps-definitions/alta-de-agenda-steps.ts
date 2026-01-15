@@ -16,6 +16,14 @@ Given("que el administrador está autenticado", function (this: CustomWorld) {
   this.setData("adminTelegramId", "admin-123");
 });
 
+Given("que el administrador no está autenticado", function (this: CustomWorld) {
+  const fake = new ProveedorAutenticacionFake(false);
+
+  authContainer.autenticador = fake;
+
+  this.setData("adminTelegramId", "admin-123");
+});
+
 When(
   "intento crear una agenda con los siguientes datos:",
   async function (this: CustomWorld, table: DataTable) {
@@ -54,3 +62,10 @@ When(
 Then("el alta de la agenda debe ser exitosa", function (this: CustomWorld) {
   expect(this.lastResponse?.status).to.equal(201);
 });
+
+Then(
+  "el alta de la agenda debe fallar con No estas autenticado para crear una agenda.",
+  function (this: CustomWorld) {
+    expect(this.lastResponse?.status).to.equal(401);
+  }
+);

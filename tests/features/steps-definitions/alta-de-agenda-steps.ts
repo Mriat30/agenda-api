@@ -2,25 +2,19 @@ import { DataTable, Given, Then, When } from "@cucumber/cucumber";
 import { expect } from "chai";
 import request from "supertest";
 
-import { authContainer } from "../../../src/agenda/infraestructura/dependencias";
+import { authConfig } from "../../../src/agenda/infraestructura/dependencias";
 import { app } from "../../../src/app";
 import { ProveedorAutenticacionFake } from "../../../src/proveedor-autenticacion/infraestructura/proveedor-autenticacion-fake";
 import { CrearAgendaDTO } from "../../../src/turno/aplicacion/dtos/agenda-dto";
 import { CustomWorld } from "../support/world";
 
 Given("que el administrador está autenticado", function (this: CustomWorld) {
-  const fake = new ProveedorAutenticacionFake(true);
-
-  authContainer.autenticador = fake;
-
+  authConfig.autenticador = new ProveedorAutenticacionFake(true);
   this.setData("adminTelegramId", "admin-123");
 });
 
 Given("que el administrador no está autenticado", function (this: CustomWorld) {
-  const fake = new ProveedorAutenticacionFake(false);
-
-  authContainer.autenticador = fake;
-
+  authConfig.autenticador = new ProveedorAutenticacionFake(false);
   this.setData("adminTelegramId", "admin-123");
 });
 

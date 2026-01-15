@@ -21,4 +21,15 @@ describe("ProveedorAutenticacion", () => {
 
     expect(esAdmin).toBe(true);
   });
+
+  it("debería retornar false si el usuario no es admin", async () => {
+    (usuariosRepositorio.obtenerPorTelegramId as jest.Mock).mockResolvedValue({
+      rol: "USER",
+    });
+
+    proveedorAutenticacion = new ProveedorAutenticacion(usuariosRepositorio);
+    const esAdmin = await proveedorAutenticacion.esAdmin("some-telegram-id");
+
+    expect(esAdmin).toBe(false);
+  });
 });

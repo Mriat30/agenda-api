@@ -1,53 +1,75 @@
-<h1 align="center">Hexagonal Architecture Typescript Service Skeleton</h1>
+# Agenda API - Ecosistema de Gestión de Turnos
 
-<p align="center">
-  Skeleton for new typescript services based on hexagonal architecture
-</p>
+Backend escalable diseñado bajo los principios de **Arquitectura Hexagonal** (Ports and Adapters) y **Domain-Driven Design (DDD)** para la gestión automatizada de agendas y turnos.
 
-<p align="center">
-    <a href="https://github.com/AlbertHernandez/hexagonal-architecture-typescript-service-skeleton/actions/workflows/nodejs.yml?branch=main"><img src="https://github.com/AlbertHernandez/hexagonal-architecture-typescript-service-skeleton/actions/workflows/nodejs.yml/badge.svg?branch=main" alt="nodejs"/></a>
-</p>
+## 🚀 Tecnologías Principales
+- **Lenguaje:** TypeScript
+- **Runtime:** Node.js / Express
+- **ORM:** Prisma
+- **Base de Datos:** PostgreSQL
+- **Testing:** Jest (Unitarios e Integración) y Cucumber (Pruebas de Aceptación/BDD)
 
-## Table of Contents
+## ⚙️ Desarrollo
 
-* [Installing](#installing)
-* [Building](#building)
-* [Testing](#testing)
-* [Linting](#linting)
+Este proyecto utiliza
+ntorno de desarrollo estandarizado y una suite completa de pruebas para garantizar la integridad de la lógica de negocio.
 
-## Installing
-
+### 🐳 Entorno de Desarrollo (Remote Development)
+El proyecto cuenta con configuración para **Dev Containers**, permitiendo un entorno consistente mediante Docker.
+- **Levantar el entorno:** 
 ```bash
-nvm install 18.0.0
-nvm use
-npm install npm@8.3.0 -g
-npm install
-```
+  ./start_dev_container.sh 
+  ```
+- **Uso en VS Code**: Al abrir la carpeta, el editor sugerirá automáticamente "Reopen in Container". Esto instalará todas las dependencias y configurará TypeScript y Prisma sin necesidad de instalaciones locales.
 
-## Building
+## 🧪 Ejecución de Tests
 
+- **Suite completa:** Ejecuta Linter, Tests Unitarios, Integracion y de Aceptación.
 ```bash
-npm run build
-```
+  npm run test:all
+  ```
 
-## Testing
-
-### Jest with Testing Library
-
+- **Unitarios:** Valida la lógica de dominio y casos de uso con Jest y genera reporte de cobertura.
 ```bash
-npm run test
-```
+  npm run test:unit
+  ```
 
-## Linting
 
-Run the linter
-
+- **Aceptacion:** Valida historias de usuario utilizando Cucumber-js (Gherkin).
 ```bash
-npm run lint
-```
+  npm run test:bdd
+  ```
 
-Fix lint issues automatically
 
+- **Integracion:**Pruebas específicas sobre los repositorios de infraestructura.
 ```bash
-npm run lint:fix
-```
+  npm run test:integration
+  ```
+
+
+  ## 🔍 Estilo y Calidad de Código
+
+  Mantenemos el estándar de código mediante ESLint y Husky (Git Hooks):
+  - **Revisar estilo**
+  ```bash
+  npm run lint
+  ```
+  - **Corregir automaticamente**
+  ```bash
+  npm run lint:fix
+  ```
+
+  ## 🗄️ Base de Datos (Prisma)
+
+  - **Generar cliente**
+  ```bash
+  npm run prisma:generate
+  ```
+  - **Sincronizar esquema**
+  ```bash
+  npm run prisma:push
+  ```
+
+    
+
+  

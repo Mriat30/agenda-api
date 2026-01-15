@@ -9,6 +9,10 @@ Backend escalable diseñado bajo los principios de **Arquitectura Hexagonal** (P
 - **Base de Datos:** PostgreSQL
 - **Testing:** Jest (Unitarios e Integración) y Cucumber (Pruebas de Aceptación/BDD)
 
+## 🚀 Ejecución de la Aplicación
+```bash
+  npm run dev 
+  ```
 ## ⚙️ Desarrollo
 
 Este proyecto utiliza

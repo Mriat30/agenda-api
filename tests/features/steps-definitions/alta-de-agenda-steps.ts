@@ -60,6 +60,6 @@ Then("el alta de la agenda debe ser exitosa", function (this: CustomWorld) {
 Then(
   "el alta de la agenda debe fallar con No estas autenticado para crear una agenda.",
   function (this: CustomWorld) {
-    expect(this.lastResponse?.status).to.equal(401);
+    expect(this.lastResponse?.status).to.equal(403);
   }
 );

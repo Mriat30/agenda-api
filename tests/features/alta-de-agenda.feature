@@ -19,7 +19,6 @@ Característica: Registro de un usuario
         | VIERNES   | 09:00  | 13:00 |
         Entonces el alta de la agenda debe ser exitosa
     
-    @wip
     Escenario: AA2: Alta fallida de una agenda por un administrador no autenticado
         Dado que el administrador no está autenticado
         Cuando intento crear una agenda con los siguientes datos:
